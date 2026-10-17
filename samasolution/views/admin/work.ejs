@@ -1,0 +1,147 @@
+<div class="split" style="margin-bottom:16px">
+  <span class="small muted">Selected work cards and client quotes on the home page. Drag order by editing the sort number.</span>
+  <a class="btn btn--ghost btn--sm" href="/#work" target="_blank" rel="noopener">View on site</a>
+</div>
+
+<div class="stack">
+  <div class="card">
+    <div class="card__head"><div><h2>Projects</h2><p><%= projects.length %> cards · shown in sort order.</p></div></div>
+    <div class="card__body">
+      <details class="card" style="box-shadow:none">
+        <summary><span><strong style="font-size:13.5px">Add a project</strong></span><span class="small muted">Open ▾</span></summary>
+        <form method="post" action="/admin/work">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          <input type="hidden" name="kind" value="project">
+          <div class="card__body">
+            <div class="fgrid">
+              <div class="frow"><label for="p-title">Title</label><input class="input" id="p-title" name="title" required placeholder="A skincare brand’s first D2C store"></div>
+              <div class="frow"><label for="p-sector">Sector</label><input class="input" id="p-sector" name="sector" placeholder="D2C · E-commerce"></div>
+              <div class="frow"><label for="p-image">Image path</label><input class="input" id="p-image" name="image" value="/img/work-1.jpg"></div>
+              <div class="frow"><label for="p-scope">Scope</label><input class="input" id="p-scope" name="scope" placeholder="Shopify build · Brand refresh · Email flows"></div>
+              <div class="frow"><label for="p-metric">Metric</label><input class="input" id="p-metric" name="metric" placeholder="3.1×"></div>
+              <div class="frow"><label for="p-metric-label">Metric label</label><input class="input" id="p-metric-label" name="metric_label" placeholder="returning-customer revenue in 6 months"></div>
+              <div class="frow"><label for="p-year">Year</label><input class="input" id="p-year" name="year" placeholder="2026"></div>
+              <div class="frow"><label for="p-sort">Sort</label><input class="input" id="p-sort" name="sort" type="number" value="<%= projects.length %>"></div>
+            </div>
+            <label class="check"><input type="checkbox" name="active" checked> Visible on the site</label>
+          </div>
+          <div class="form-foot">
+            <span class="small muted">Cards are illustrative — no client names are published.</span>
+            <button class="btn btn--sm" type="submit">Add project</button>
+          </div>
+        </form>
+      </details>
+
+      <div class="stack" style="margin-top:12px">
+        <% projects.forEach(function(item, index){ %>
+        <details class="card" style="box-shadow:none">
+          <summary>
+            <span style="display:flex;align-items:center;gap:12px;min-width:0">
+              <img src="<%= item.image %>" alt="" width="54" height="40" style="object-fit:cover;border-radius:4px;border:1px solid var(--line)">
+              <span style="min-width:0">
+                <strong style="display:block;font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis"><%= item.title %></strong>
+                <span class="small muted"><%= item.sector %> · <%= item.year %> · sort <%= item.sort %></span>
+              </span>
+            </span>
+            <span class="small muted"><%= item.active ? 'Live' : 'Hidden' %> ▾</span>
+          </summary>
+          <form method="post" action="/admin/work">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <input type="hidden" name="kind" value="project">
+            <input type="hidden" name="id" value="<%= item.id %>">
+            <div class="card__body">
+              <div class="fgrid">
+                <div class="frow"><label>Title</label><input class="input" name="title" value="<%= item.title %>" required></div>
+                <div class="frow"><label>Sector</label><input class="input" name="sector" value="<%= item.sector %>"></div>
+                <div class="frow"><label>Image path</label><input class="input" name="image" value="<%= item.image %>"></div>
+                <div class="frow"><label>Scope</label><input class="input" name="scope" value="<%= item.scope %>"></div>
+                <div class="frow"><label>Metric</label><input class="input" name="metric" value="<%= item.metric %>"></div>
+                <div class="frow"><label>Metric label</label><input class="input" name="metric_label" value="<%= item.metric_label %>"></div>
+                <div class="frow"><label>Year</label><input class="input" name="year" value="<%= item.year %>"></div>
+                <div class="frow"><label>Sort</label><input class="input" name="sort" type="number" value="<%= item.sort %>"></div>
+              </div>
+              <label class="check"><input type="checkbox" name="active" <%= item.active ? 'checked' : '' %>> Visible on the site</label>
+            </div>
+            <div class="form-foot">
+              <span class="small muted">Updated <%= helpers.formatDate(item.updated_at, 'short') %></span>
+              <div style="display:flex;gap:8px">
+                <button class="btn btn--danger btn--sm" type="submit" form="delWork<%= item.id %>">Delete</button>
+                <button class="btn btn--sm" type="submit">Save project</button>
+              </div>
+            </div>
+          </form>
+          <form id="delWork<%= item.id %>" method="post" action="/admin/work/<%= item.id %>/delete" data-confirm="Delete this project card?">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          </form>
+        </details>
+        <% }) %>
+        <% if (!projects.length) { %><div class="empty">No project cards yet.</div><% } %>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card__head"><div><h2>Testimonials</h2><p><%= testimonials.length %> quotes.</p></div></div>
+    <div class="card__body">
+      <details class="card" style="box-shadow:none">
+        <summary><span><strong style="font-size:13.5px">Add a testimonial</strong></span><span class="small muted">Open ▾</span></summary>
+        <form method="post" action="/admin/work">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          <input type="hidden" name="kind" value="testimonial">
+          <div class="card__body">
+            <div class="frow"><label for="t-quote">Quote</label><textarea class="textarea" id="t-quote" name="quote" required></textarea></div>
+            <div class="fgrid">
+              <div class="frow"><label for="t-name">Attribution</label><input class="input" id="t-name" name="name" placeholder="Operations lead"></div>
+              <div class="frow"><label for="t-detail">Context</label><input class="input" id="t-detail" name="detail" placeholder="D2C skincare brand · Delhi NCR"></div>
+              <div class="frow"><label for="t-sort">Sort</label><input class="input" id="t-sort" name="sort" type="number" value="<%= testimonials.length %>"></div>
+            </div>
+            <label class="check"><input type="checkbox" name="active" checked> Visible on the site</label>
+          </div>
+          <div class="form-foot">
+            <span class="small muted">Keep attributions role-based unless you have written permission to name the client.</span>
+            <button class="btn btn--sm" type="submit">Add testimonial</button>
+          </div>
+        </form>
+      </details>
+
+      <div class="stack" style="margin-top:12px">
+        <% testimonials.forEach(function(item, index){ %>
+        <details class="card" style="box-shadow:none">
+          <summary>
+            <span style="min-width:0">
+              <strong style="display:block;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:62ch">“<%= item.quote %>”</strong>
+              <span class="small muted"><%= item.name %> · sort <%= item.sort %></span>
+            </span>
+            <span class="small muted"><%= item.active ? 'Live' : 'Hidden' %> ▾</span>
+          </summary>
+          <form method="post" action="/admin/work">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <input type="hidden" name="kind" value="testimonial">
+            <input type="hidden" name="id" value="<%= item.id %>">
+            <div class="card__body">
+              <div class="frow"><label>Quote</label><textarea class="textarea" name="quote" required><%= item.quote %></textarea></div>
+              <div class="fgrid">
+                <div class="frow"><label>Attribution</label><input class="input" name="name" value="<%= item.name %>"></div>
+                <div class="frow"><label>Context</label><input class="input" name="detail" value="<%= item.detail %>"></div>
+                <div class="frow"><label>Sort</label><input class="input" name="sort" type="number" value="<%= item.sort %>"></div>
+              </div>
+              <label class="check"><input type="checkbox" name="active" <%= item.active ? 'checked' : '' %>> Visible on the site</label>
+            </div>
+            <div class="form-foot">
+              <span class="small muted">Updated <%= helpers.formatDate(item.updated_at, 'short') %></span>
+              <div style="display:flex;gap:8px">
+                <button class="btn btn--danger btn--sm" type="submit" form="delQuote<%= item.id %>">Delete</button>
+                <button class="btn btn--sm" type="submit">Save testimonial</button>
+              </div>
+            </div>
+          </form>
+          <form id="delQuote<%= item.id %>" method="post" action="/admin/work/<%= item.id %>/delete" data-confirm="Delete this testimonial?">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          </form>
+        </details>
+        <% }) %>
+        <% if (!testimonials.length) { %><div class="empty">No testimonials yet.</div><% } %>
+      </div>
+    </div>
+  </div>
+</div>

@@ -66,6 +66,7 @@ Change the password from **Account → Password** after the first sign-in.
 | Inquiries | Filter by status, full-text search, pagination, per-enquiry notes and status, CSV export, delete |
 | Pages | Home page (hero, manifesto, four stat rows, default SEO) and every static page (about, contact, privacy, terms) with rich body copy |
 | Insights | Create, edit, publish or unpublish blog posts, with category, cover, excerpt, SEO fields and markdown body |
+| Work | Selected-work cards (title, sector, scope, metric, image, order) and client testimonials |
 | Services | 44 service lines in 10 categories; edit name, slug, summary, body, deliverables, icon, price from, per-service SEO |
 | Categories | Create and edit categories, including process steps and FAQs (`Title | Description` per line) |
 | Market area | Add/edit/delete **countries → states/provinces → cities**, bulk-add cities, per-country keyword roles, currency, timezone and market intro |
@@ -135,7 +136,7 @@ samasolution/
 │   └── routes/               site.js · admin.js · api.js · seo.js
 ├── views/
 │   ├── site/                 layout + 15 public views + partials
-│   └── admin/                layout, auth, 21 panel views
+│   └── admin/                layout, auth, 20 panel views
 ├── public/
 │   ├── css/site.css          monochrome editorial design system
 │   ├── css/admin.css         admin design system

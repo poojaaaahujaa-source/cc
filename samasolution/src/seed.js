@@ -8,9 +8,10 @@ const { categories, services } = require('./data/services');
 const { countries, featuredCities } = require('./data/locations');
 const { posts } = require('./data/posts');
 const { pages } = require('./data/pages');
+const { work, testimonials } = require('./data/work');
 
 const TABLES = [
-  'sessions', 'inquiries', 'media', 'cities', 'states', 'countries',
+  'sessions', 'inquiries', 'media', 'work', 'cities', 'states', 'countries',
   'services', 'categories', 'posts', 'pages', 'users', 'settings'
 ];
 
@@ -126,6 +127,24 @@ function insertPosts() {
   });
 }
 
+function insertWork() {
+  const now = new Date().toISOString();
+  work.forEach((item, index) => {
+    run(
+      `INSERT INTO work (kind, title, sector, image, scope, metric, metric_label, year, sort, active, updated_at)
+       VALUES ('project', ?, ?, ?, ?, ?, ?, ?, ?, 1, ?)`,
+      item.title, item.sector, item.image, item.scope, item.metric, item.metricLabel, item.year || '', index, now
+    );
+  });
+  testimonials.forEach((item, index) => {
+    run(
+      `INSERT INTO work (kind, quote, name, detail, sort, active, updated_at)
+       VALUES ('testimonial', ?, ?, ?, ?, 1, ?)`,
+      item.quote, item.name, item.detail, index, now
+    );
+  });
+}
+
 function insertSampleInquiries() {
   const rows = [
     ['Aarav Mehta', 'aarav@northlineinteriors.in', '+91 98110 22140', 'Northline Interiors', 'website-design', 'New Delhi', 'Delhi', 'India', '₹75k–₹1.5L', 'We need a new site for our interior fit-out business. Current one is 6 years old and not mobile friendly.'],
@@ -193,6 +212,7 @@ function seed({ force = false } = {}) {
     insertLocations();
     insertPages();
     insertPosts();
+    insertWork();
     insertSampleInquiries();
     const counts = {
       categories: get('SELECT COUNT(*) AS n FROM categories').n,
@@ -212,6 +232,12 @@ function ensureSeed() {
   const marker = get("SELECT value FROM settings WHERE key = 'content_version'");
   const users = get('SELECT COUNT(*) AS n FROM users');
   if (!marker || users.n === 0) return seed({ force: false });
+  if (get('SELECT COUNT(*) AS n FROM work').n === 0) {
+    tx(() => {
+      insertWork();
+      run('UPDATE settings SET value = ? WHERE key = ?', String(Date.now()), 'content_version');
+    });
+  }
   return null;
 }
 

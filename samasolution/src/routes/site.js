@@ -11,7 +11,15 @@ const {
 const { keywordList, metaTitle, metaDescription, resolveMeta } = require('../lib/seo');
 const { parseJSON, hashString, truncate } = require('../lib/utils');
 const { render: renderMarkdown } = require('../lib/markdown');
-const { work, testimonials } = require('../data/work');
+function workContent() {
+  const projects = all(
+    "SELECT * FROM work WHERE kind = 'project' AND active = 1 ORDER BY sort, id"
+  ).map((row) => ({ ...row, metricLabel: row.metric_label }));
+  const testimonials = all(
+    "SELECT * FROM work WHERE kind = 'testimonial' AND active = 1 ORDER BY sort, id"
+  );
+  return { projects, testimonials };
+}
 
 const router = express.Router();
 
@@ -63,6 +71,7 @@ router.get('/', (req, res) => {
   const market = marketSummary();
   const countries = marketCountries();
   const cities = featuredCities(8);
+  const gallery = workContent();
   const posts = latestPosts(3);
   const stats = parseJSON(site.home_stats, []);
 
@@ -79,8 +88,8 @@ router.get('/', (req, res) => {
     cities,
     posts,
     stats,
-    work,
-    testimonials,
+    work: gallery.projects,
+    testimonials: gallery.testimonials,
     jsonLd: [
       { '@context': 'https://schema.org', '@type': 'WebSite', url: site.site_url, name: site.site_name, potentialAction: { '@type': 'SearchAction', target: `${site.site_url}/search?q={search_term_string}`, 'query-input': 'required name=search_term_string' } },
       { '@context': 'https://schema.org', '@type': 'Organization', name: site.site_name, url: site.site_url, email: site.contact_email, telephone: site.contact_phone, address: { '@type': 'PostalAddress', addressLocality: site.contact_city, addressCountry: 'IN' } }

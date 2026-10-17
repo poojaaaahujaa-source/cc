@@ -184,6 +184,25 @@ CREATE TABLE IF NOT EXISTS media (
   created_at TEXT NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS work (
+  id           INTEGER PRIMARY KEY AUTOINCREMENT,
+  kind         TEXT NOT NULL DEFAULT 'project',
+  title        TEXT NOT NULL DEFAULT '',
+  sector       TEXT NOT NULL DEFAULT '',
+  image        TEXT NOT NULL DEFAULT '',
+  scope        TEXT NOT NULL DEFAULT '',
+  metric       TEXT NOT NULL DEFAULT '',
+  metric_label TEXT NOT NULL DEFAULT '',
+  year         TEXT NOT NULL DEFAULT '',
+  quote        TEXT NOT NULL DEFAULT '',
+  name         TEXT NOT NULL DEFAULT '',
+  detail       TEXT NOT NULL DEFAULT '',
+  sort         INTEGER NOT NULL DEFAULT 0,
+  active       INTEGER NOT NULL DEFAULT 1,
+  updated_at   TEXT NOT NULL DEFAULT ''
+);
+
+CREATE INDEX IF NOT EXISTS idx_work_kind ON work(kind, sort);
 CREATE INDEX IF NOT EXISTS idx_services_category ON services(category_id);
 CREATE INDEX IF NOT EXISTS idx_states_country ON states(country_id);
 CREATE INDEX IF NOT EXISTS idx_cities_state ON cities(state_id);

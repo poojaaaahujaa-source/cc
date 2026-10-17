@@ -418,6 +418,68 @@ router.post('/categories', checkCsrf, (req, res) => {
   res.redirect('/admin/categories?saved=Category created.');
 });
 
+/* ── Selected work & testimonials ─────────────────────────────── */
+
+router.get('/work', (req, res) => {
+  const projects = all("SELECT * FROM work WHERE kind = 'project' ORDER BY sort, id");
+  const testimonials = all("SELECT * FROM work WHERE kind = 'testimonial' ORDER BY sort, id");
+  adminRender(res, 'admin/work', {
+    pageTitle: 'Selected work',
+    metaDescription: 'Edit case-study cards and client testimonials',
+    noindex: true,
+    active: 'work',
+    projects,
+    testimonials,
+    notice: noticeFrom(req)
+  });
+});
+
+router.post('/work', checkCsrf, (req, res) => {
+  const b = req.body;
+  const kind = b.kind === 'testimonial' ? 'testimonial' : 'project';
+  const id = b.id ? Number(b.id) : null;
+  const now = new Date().toISOString();
+
+  if (kind === 'testimonial') {
+    const quote = String(b.quote || '').trim();
+    if (!quote) return res.redirect('/admin/work?error=A testimonial needs a quote.');
+    if (id) {
+      run('UPDATE work SET quote=?, name=?, detail=?, sort=?, active=?, updated_at=? WHERE id=?',
+        quote, String(b.name || ''), String(b.detail || ''), Number(b.sort) || 0, b.active ? 1 : 0, now, id);
+      setOne('content_version', String(Date.now()));
+      return res.redirect('/admin/work?saved=Testimonial updated.');
+    }
+    run("INSERT INTO work (kind, quote, name, detail, sort, active, updated_at) VALUES ('testimonial', ?, ?, ?, ?, ?, ?)",
+      quote, String(b.name || ''), String(b.detail || ''), Number(b.sort) || 0, b.active ? 1 : 0, now);
+    setOne('content_version', String(Date.now()));
+    return res.redirect('/admin/work?saved=Testimonial added.');
+  }
+
+  const title = String(b.title || '').trim();
+  if (!title) return res.redirect('/admin/work?error=A project needs a title.');
+  const fields = [
+    title, String(b.sector || ''), String(b.image || '/img/work-1.jpg'), String(b.scope || ''),
+    String(b.metric || ''), String(b.metric_label || ''), String(b.year || ''),
+    Number(b.sort) || 0, b.active ? 1 : 0, now
+  ];
+  if (id) {
+    run('UPDATE work SET title=?, sector=?, image=?, scope=?, metric=?, metric_label=?, year=?, sort=?, active=?, updated_at=? WHERE id=?',
+      ...fields, id);
+    setOne('content_version', String(Date.now()));
+    return res.redirect('/admin/work?saved=Project updated.');
+  }
+  run("INSERT INTO work (kind, title, sector, image, scope, metric, metric_label, year, sort, active, updated_at) VALUES ('project', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+    ...fields);
+  setOne('content_version', String(Date.now()));
+  res.redirect('/admin/work?saved=Project added.');
+});
+
+router.post('/work/:id/delete', checkCsrf, (req, res) => {
+  run('DELETE FROM work WHERE id = ?', Number(req.params.id));
+  setOne('content_version', String(Date.now()));
+  res.redirect('/admin/work?deleted=1');
+});
+
 router.post('/categories/:id/delete', checkCsrf, (req, res) => {
   const count = get('SELECT COUNT(*) AS n FROM services WHERE category_id = ?', req.params.id).n;
   if (count > 0) return res.redirect('/admin/categories?error=Move or delete the services in this category first.');

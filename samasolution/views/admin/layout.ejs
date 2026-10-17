@@ -29,6 +29,7 @@
           <% if (adminNewInquiries) { %><span class="count"><%= adminNewInquiries %></span><% } %>
         </a>
         <a href="/admin/pages" class="<%= active === 'pages' ? 'is-active' : '' %>"><%- icon('doc', 16) %> Pages</a>
+        <a href="/admin/work" class="<%= active === 'work' ? 'is-active' : '' %>"><%- icon('briefcase', 16) %> Work</a>
         <a href="/admin/blog" class="<%= active === 'blog' ? 'is-active' : '' %>"><%- icon('edit', 16) %> Insights</a>
         <a href="/admin/media" class="<%= active === 'media' ? 'is-active' : '' %>"><%- icon('camera', 16) %> Media</a>
       </nav>
@@ -62,7 +63,7 @@
     <div class="admin-main">
       <header class="admin-top">
         <div>
-          <p class="crumb">Admin / <%= ({ dashboard: 'Overview', inquiries: 'Enquiries', services: 'Services', categories: 'Categories', pages: 'Pages', blog: 'Insights', locations: 'Market area', media: 'Media', seo: 'SEO', settings: 'Settings', account: 'Account' })[active] || active %></p>
+          <p class="crumb">Admin / <%= ({ dashboard: 'Overview', inquiries: 'Enquiries', services: 'Services', categories: 'Categories', pages: 'Pages', blog: 'Insights', work: 'Work', locations: 'Market area', media: 'Media', seo: 'SEO', settings: 'Settings', account: 'Account' })[active] || active %></p>
           <h1><%= pageTitle %></h1>
         </div>
         <div class="admin-top__actions">
