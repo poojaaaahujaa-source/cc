@@ -1,37 +1,41 @@
-# samasolution.in — website audit
+# Website teardowns & audits
 
-Independent audit of **https://www.samasolution.in/**, carried out on **17 October 2026**.
+Two independent studies, carried out **17 October 2026** by inspecting live HTTP responses, sitemaps, WordPress REST endpoints, Lighthouse lab runs and public reputation data.
 
-## Headline
+| Site | What it is | Overall | Report |
+|---|---|---|---|
+| **samasolution.in** | 5-page Delhi web-design brochure site | **3.3 / 10** | [`audit/samasolution-website-audit.md`](audit/samasolution-website-audit.md) |
+| **artattackk.com** | 320+ URL Delhi agency with a full content engine | **5.6 / 10** | [`audit/artattackk-teardown.md`](audit/artattackk-teardown.md) |
 
-**Overall: 3.3 / 10.** The site is live but not working as a business asset.
+## Headlines
 
-- 🔴 **The home page returns HTTP 500** (empty body, Apache + PHP 7.4.33). Interior pages return 200.
-- 🔴 **PHP 7.4.33** has been end-of-life since November 2022.
-- 🔴 **Client staging sites** (e.g. `adityainnovatives.com.samasolution.in`) are publicly reachable.
-- 🟠 Only **5 pages**, sitemap last modified **2020**, no `robots.txt`, no contact form.
-- 🟠 **No portfolio, testimonials, pricing, team or case studies** — nothing a buyer needs to say yes.
-- 🟠 The only public review on Trustpilot is **1 star** (June 2023, an alleged incomplete delivery).
-- 🟠 Mobile lab metrics: **LCP 3.0 s, FCP 2.9 s, Speed Index 4.3 s**; no CDN, no cache headers.
+**samasolution.in**
+- 🔴 Home page returns **HTTP 500** (empty body); interior pages return 200.
+- 🔴 PHP 7.4.33 (end-of-life since Nov 2022); client staging subdomains publicly reachable.
+- 🟠 5 pages, sitemap last modified 2020, no `robots.txt`, no contact form, no portfolio or pricing.
+- 🟠 Only public review is a 1-star Trustpilot complaint.
 
-## Files
+**artattackk.com**
+- 🔴 **LCP 5.9 s / FCP 3.9 s on mobile** — for a web design agency, the headline failure.
+- 🔴 Primary CTAs on the top three service pages **link back to themselves**.
+- 🟠 Two separate WordPress installs (`/` with Rank Math, `/blogs/` with Yoast).
+- 🟠 Contradictory proof: "13 years", "14 years", "since 2009" (17) on the same page; "500+" vs "1,014+" projects.
+- 🟢 Genuinely strong: 78 service pages, 50 case studies, 35 portfolio pages, ~80 programme pages, excellent security headers, Cloudflare + HTTP/3, HSTS preload.
+
+## Evidence
 
 | File | Contents |
 |---|---|
-| [`audit/samasolution-website-audit.md`](audit/samasolution-website-audit.md) | Full report — scorecard, P0 fixes, SEO/performance/UX/security findings, 30-60-90 plan, recommended copy and structure |
-| [`audit/evidence-log.md`](audit/evidence-log.md) | Raw evidence — HTTP headers, DNS, RDAP, certificates, Lighthouse metrics, archive history, listings |
+| [`audit/artattackk-evidence-log.md`](audit/artattackk-evidence-log.md) | Raw headers, REST namespaces, sitemap inventory, page defects, reputation cross-check |
+| [`audit/evidence-log.md`](audit/evidence-log.md) | samasolution.in headers, DNS, RDAP, certificates, Lighthouse, archive history |
 
-## Fastest path to a better result
+## Reading order
 
-1. Restore `index.php` and add uptime monitoring.
-2. Add a contact form and a thank-you page.
-3. Publish work, reviews and pricing.
-4. Rewrite the five pages with unique titles and real specifics.
-5. Upgrade PHP, add security headers, put Cloudflare in front.
-6. Build Google reviews and a Google Business Profile.
-
-See section 9 of the report for the full 30/60/90-day plan.
+1. `audit/samasolution-website-audit.md` §1–2 — the 500 error and the P0 fixes.
+2. `audit/artattackk-teardown.md` §3–6 — what a 320-page agency content engine looks like.
+3. `audit/artattackk-teardown.md` §15 — what to steal, what to avoid.
+4. `audit/artattackk-teardown.md` §16 — 30/60/90 plan.
 
 ---
 
-*Scope and limits: no visual browser session (the origin dropped this audit environment's TLS connection), no Search Console or analytics access. See Appendix C of the report.*
+*Limits: no rendered visual review (both origins refused this environment's TLS handshake, so analysis is from markup, assets and third-party renderers), no Search Console or analytics access, third-party company data is unconfirmed.*
