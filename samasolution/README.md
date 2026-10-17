@@ -161,6 +161,14 @@ samasolution/
 
 ## 8. Deployment notes
 
+**cPanel:** the repository ships `app.js` (startup file), `.htaccess` (blocks direct downloads of
+the database and source) and a step-by-step Hinglish guide in [`DEPLOY-CPANEL.md`](DEPLOY-CPANEL.md).
+Use cPanel → *Setup Node.js App* with Node **22.5+**, application root `samasolution`, startup file
+`app.js`. `node_modules` and a pre-seeded database are included in the deployment zip, so no build
+step is required.
+
+## 8. Deployment notes
+
 Static assets are served with long-lived caching; HTML is rendered per request. Point a reverse
 proxy (nginx/Caddy) at `PORT` and enable TLS. For a true separation of concerns, mount
 `src/routes/admin.js` on a second hostname and restrict it by IP allowlist or SSO — the router only

@@ -1,0 +1,23 @@
+# Safety net for cPanel.
+# If the app is extracted inside public_html, block direct downloads of
+# database, source and config files. Passenger still serves the app itself.
+
+Options -Indexes
+
+<IfModule mod_authz_core.c>
+  <FilesMatch "(\.db|\.db-wal|\.db-shm|\.sqlite|\.md|\.json|\.lock|\.ejs|\.log)$">
+    Require all denied
+  </FilesMatch>
+</IfModule>
+
+<IfModule !mod_authz_core.c>
+  <FilesMatch "(\.db|\.db-wal|\.db-shm|\.sqlite|\.md|\.json|\.lock|\.ejs|\.log)$">
+    Order allow,deny
+    Deny from all
+  </FilesMatch>
+</IfModule>
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteRule ^(src|views|tests|node_modules|data)/ - [F,L]
+</IfModule>

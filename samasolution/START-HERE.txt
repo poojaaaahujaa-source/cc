@@ -1,0 +1,41 @@
+SAMA SOLUTIONS — WEBSITE + ADMIN PANEL
+=====================================
+
+Ye zip upload karne ke liye ready hai, lekin cPanel par Node.js app create karni padegi.
+Poora step-by-step guide: DEPLOY-CPANEL.md  (isi folder me)
+
+JALDI MEIN (short version)
+--------------------------
+1. cPanel > File Manager > home directory (/home/YOUR_USER) me zip upload karein.
+2. Extract karein. "samasolution" folder banega.
+3. cPanel > Setup Node.js App > Create Application:
+     Node.js version ........ 22.x  (22.5+ zaroori)
+     Application root ....... samasolution
+     Application URL ........ samasolution.in  (ya www / subdomain)
+     Startup file ........... app.js
+4. Create > Restart.
+5. Website khul jayegi. Admin: /admin/login
+     Email    : admin@samasolution.in
+     Password : Sama@2026
+   Login ke baad Account > Password se password turant badal dein.
+
+ZAROORI
+-------
+- Ye PHP app nahi hai. Node.js hosting chahiye (Node 22.5+).
+- Agar cPanel me Node 22 nahi hai to host se enable karwayein, ya Render/Railway par
+  isi folder ko deploy karein (start command: node app.js).
+- Database zip me ready hai: data/site.db (44 services, 7 countries, 396 cities, 8 blogs).
+  Ise delete karne par server dobara demo content bana dega.
+- Backup: data/site.db aur public/uploads/ ka.
+
+Files
+-----
+app.js              cPanel startup file
+server.js           main app
+src/                code (routes, db, auth, seo, seed)
+views/              templates (public + admin)
+public/             CSS, JS, images, fonts, uploads
+data/site.db        database (ready)
+node_modules/       dependencies (pre-installed)
+DEPLOY-CPANEL.md    detailed Hinglish deployment guide
+README.md           technical documentation
