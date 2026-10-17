@@ -1,0 +1,130 @@
+<section class="page-hero">
+  <div class="wrap">
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a><span class="sep">/</span><span>Contact</span>
+    </nav>
+    <div class="page-hero__row">
+      <div>
+        <p class="eyebrow">Contact</p>
+        <h1>Tell us what you <span class="serif">are building.</span></h1>
+        <p class="lede" style="margin-top:22px">A short brief is enough. You will get a reply within one working day — from the person who would run the project, not a sales team.</p>
+      </div>
+      <div class="page-hero__meta">
+        <div class="meta-item">Email<strong><a href="mailto:<%= site.contact_email %>"><%= site.contact_email %></a></strong></div>
+        <div class="meta-item">Phone<strong><a href="tel:<%= site.contact_phone_raw %>"><%= site.contact_phone %></a></strong></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap contact-layout">
+    <div>
+      <% if (sent) { %>
+      <div class="alert" role="status"><strong>Thank you.</strong> Your enquiry is with us. We will reply within one working day.</div>
+      <% } %>
+      <form class="form-card" id="inquiryForm" action="/api/inquiries" method="post" novalidate>
+        <input type="hidden" name="source" value="<%= currentPath %>">
+        <div class="hp" aria-hidden="true">
+          <label for="website">Website</label>
+          <input id="website" type="text" name="website" tabindex="-1" autocomplete="off">
+        </div>
+        <div class="form-grid">
+          <div class="field">
+            <label for="name">Your name <span class="req">*</span></label>
+            <input class="input" id="name" name="name" type="text" autocomplete="name" required>
+          </div>
+          <div class="field">
+            <label for="email">Email <span class="req">*</span></label>
+            <input class="input" id="email" name="email" type="email" autocomplete="email" required>
+          </div>
+          <div class="field">
+            <label for="phone">Phone / WhatsApp</label>
+            <input class="input" id="phone" name="phone" type="tel" autocomplete="tel">
+          </div>
+          <div class="field">
+            <label for="company">Company</label>
+            <input class="input" id="company" name="company" type="text" autocomplete="organization">
+          </div>
+          <div class="field">
+            <label for="service">What do you need?</label>
+            <select class="select" id="service" name="service">
+              <option value="">Select a service</option>
+              <% serviceGroups.forEach(function(group){ %>
+              <optgroup label="<%= group.category %>">
+                <% group.items.forEach(function(svc){ %>
+                <option value="<%= svc.slug %>" <%= prefillService === svc.slug ? 'selected' : '' %>><%= svc.name %></option>
+                <% }) %>
+              </optgroup>
+              <% }) %>
+            </select>
+          </div>
+          <div class="field">
+            <label for="budget">Budget range</label>
+            <select class="select" id="budget" name="budget">
+              <option value="">Prefer not to say</option>
+              <option>Under ₹50k / $1k</option>
+              <option>₹50k–₹1.5L</option>
+              <option>₹1.5L–₹5L</option>
+              <option>₹5L+ / $6k+</option>
+              <option>Retainer / ongoing</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="country">Country</label>
+            <select class="select" id="country" name="country">
+              <option value="">Select</option>
+              <% countries.forEach(function(c){ %>
+              <option value="<%= c.name %>"><%= c.label || c.name %></option>
+              <% }) %>
+            </select>
+          </div>
+          <div class="field">
+            <label for="city">City</label>
+            <input class="input" id="city" name="city" type="text" value="<%= prefillCity %>" autocomplete="address-level2">
+          </div>
+          <div class="field field--full">
+            <label for="message">About the project <span class="req">*</span></label>
+            <textarea class="textarea" id="message" name="message" required placeholder="What are you launching or fixing? Any deadline, links or context helps."></textarea>
+          </div>
+        </div>
+        <div class="form-foot">
+          <p class="form-status small" id="formStatus" role="status" aria-live="polite">Fields marked * are required.</p>
+          <button class="btn btn--dark" type="submit">Send enquiry <%- icon('arrow', 17) %></button>
+        </div>
+        <p class="small" style="margin:16px 0 0">By sending this you agree to our <a href="/privacy" style="text-decoration:underline">privacy policy</a>. We do not add you to a mailing list.</p>
+      </form>
+    </div>
+
+    <aside class="contact-aside">
+      <div class="contact-block">
+        <h4>Studio</h4>
+        <p><%= site.address %></p>
+        <p class="small" style="margin-top:6px"><%= site.hours %></p>
+      </div>
+      <div class="contact-block">
+        <h4>Direct</h4>
+        <p><a href="mailto:<%= site.contact_email %>"><%= site.contact_email %></a></p>
+        <p><a href="tel:<%= site.contact_phone_raw %>"><%= site.contact_phone %></a></p>
+        <p><a href="https://wa.me/<%= site.whatsapp %>" rel="noopener" target="_blank">WhatsApp</a></p>
+      </div>
+      <div class="contact-block">
+        <h4>For international clients</h4>
+        <p class="small">We keep a fixed daily overlap across GST, AST, ICT, GMT and US time zones. Include your city and preferred call window and we will propose a slot.</p>
+      </div>
+      <div class="contact-block">
+        <h4>What happens next</h4>
+        <ol class="small" style="padding-left:18px;margin:0;line-height:1.8">
+          <li>We read the brief and check fit.</li>
+          <li>You get a reply within one working day.</li>
+          <li>If it looks right, a 30-minute call.</li>
+          <li>A written scope, timeline and price.</li>
+        </ol>
+      </div>
+      <div class="contact-block">
+        <h4>Existing clients</h4>
+        <p class="small">Mark the subject “Support”. Care-plan clients are routed first.</p>
+      </div>
+    </aside>
+  </div>
+</section>

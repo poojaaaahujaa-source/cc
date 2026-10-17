@@ -1,0 +1,64 @@
+<div class="card">
+  <div class="card__head">
+    <div>
+      <h2>All inquiries</h2>
+      <p><%= total %> record<%= total === 1 ? '' : 's' %> matching the current filter.</p>
+    </div>
+    <div style="display:flex;gap:8px">
+      <a class="btn btn--ghost btn--sm" href="/admin/inquiries/export.csv">Export CSV</a>
+    </div>
+  </div>
+
+  <div style="padding:14px 18px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;align-items:center">
+    <div class="tabs" style="border:0;padding:0">
+      <a class="<%= !status ? 'is-active' : '' %>" href="/admin/inquiries">All</a>
+      <% ['new', 'contacted', 'quoted', 'won', 'lost'].forEach(function(s){ %>
+      <% const row = statusCounts.find(function(c){ return c.status === s; }); %>
+      <a class="<%= status === s ? 'is-active' : '' %>" href="/admin/inquiries?status=<%= s %>"><%= s %> <%= row ? '(' + row.n + ')' : '(0)' %></a>
+      <% }) %>
+    </div>
+    <form method="get" action="/admin/inquiries" style="display:flex;gap:6px">
+      <% if (status) { %><input type="hidden" name="status" value="<%= status %>"><% } %>
+      <input class="input" style="height:32px;width:230px" type="search" name="q" value="<%= q %>" placeholder="Search name, email, city…">
+      <button class="btn btn--ghost btn--sm" type="submit">Search</button>
+    </form>
+  </div>
+
+  <div class="table-wrap">
+    <table class="data">
+      <thead>
+        <tr><th>#</th><th>Name</th><th>Service</th><th>Location</th><th>Budget</th><th>Received</th><th>Status</th><th></th></tr>
+      </thead>
+      <tbody>
+        <% rows.forEach(function(row){ %>
+        <tr>
+          <td class="num"><%= row.id %></td>
+          <td>
+            <a class="strong" href="/admin/inquiries/<%= row.id %>"><%= row.name %></a>
+            <div class="sub"><%= row.email %><%= row.company ? ' · ' + row.company : '' %></div>
+          </td>
+          <td><%= row.service_name || '—' %></td>
+          <td><%= [row.city, row.state, row.country].filter(Boolean).join(', ') || '—' %></td>
+          <td class="sub"><%= row.budget || '—' %></td>
+          <td class="sub"><%= helpers.formatDate(row.created_at, 'short') %></td>
+          <td><span class="badge badge--<%= row.status %>"><%= row.status %></span></td>
+          <td style="text-align:right"><a class="btn btn--ghost btn--sm" href="/admin/inquiries/<%= row.id %>">Open</a></td>
+        </tr>
+        <% }) %>
+        <% if (!rows.length) { %>
+        <tr><td colspan="8" class="empty"><strong>Nothing here yet.</strong> Enquiries from the website will appear in this list.</td></tr>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+
+  <% if (pages > 1) { %>
+  <div class="pagination">
+    <% for (let i = 1; i <= pages; i += 1) { %>
+    <% if (i === 1 || i === pages || Math.abs(i - page) <= 1) { %>
+    <a class="<%= i === page ? 'is-current' : '' %>" href="/admin/inquiries?page=<%= i %><%= status ? '&status=' + status : '' %><%= q ? '&q=' + encodeURIComponent(q) : '' %>"><%= i %></a>
+    <% } else if (Math.abs(i - page) === 2) { %><span>…</span><% } %>
+    <% } %>
+  </div>
+  <% } %>
+</div>

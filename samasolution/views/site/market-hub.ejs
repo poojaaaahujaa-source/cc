@@ -1,0 +1,112 @@
+<section class="market-hero">
+  <div class="wrap">
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a><span class="sep">/</span><span>Market area</span>
+    </nav>
+    <p class="eyebrow">Market area</p>
+    <h1>Local work, in <span class="serif"><%= summary.cities %> cities.</span></h1>
+    <p class="lede" style="margin-top:22px">Seven countries, <%= summary.states %> states and provinces, and a page for every city we work in. Each one tells you the currency, the working hours, the language reality and how a project actually runs there — not just the name of the place.</p>
+
+    <%- include('partials/market-search') %>
+
+    <div class="market-stats">
+      <div><strong><%= summary.countries %></strong><span>Countries</span></div>
+      <div><strong><%= summary.states %></strong><span>States &amp; provinces</span></div>
+      <div><strong><%= summary.cities %></strong><span>Cities</span></div>
+      <div><strong><%= helpers.numberFmt(summary.pages) %></strong><span>Local service pages</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="section-index">01 — Countries</p>
+      <div>
+        <h2>Where we work. <span class="serif">Honestly.</span></h2>
+        <p class="lede">We do not claim an office in every city. This is a map of where we take work, how we deliver it and what changes locally.</p>
+      </div>
+    </div>
+
+    <div class="country-grid">
+      <% countries.forEach(function(c){ %>
+      <a class="country-card reveal" href="/market-area/<%= c.slug %>">
+        <div class="country-card__top">
+          <h3><%= c.label || c.name %></h3>
+          <span class="country-code"><%= c.code %></span>
+        </div>
+        <p class="country-meta"><%= c.state_count %> states &amp; provinces · <%= c.city_count %> cities · <%= c.currency %></p>
+        <div class="country-states">
+          <% (statesByCountry.find(function(x){ return x.country.id === c.id; }) || {states: []}).states.forEach(function(s){ %>
+          <span><%= s.name %></span>
+          <% }) %>
+          <% if (c.state_count > 6) { %><span>+<%= c.state_count - 6 %> more</span><% } %>
+        </div>
+        <span class="go">Explore <%= c.label || c.name %> <%- icon('arrow', 15) %></span>
+      </a>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<section class="section section--line">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="section-index">02 — How it works</p>
+      <div><h2>A location page should tell you <span class="serif">something local.</span></h2></div>
+    </div>
+    <div class="process">
+      <div class="process-step">
+        <p class="process-num">01</p>
+        <h3>Same senior team</h3>
+        <p>Wherever you are, the person who scopes the work is the person who designs it. No local subcontractor, no lost context.</p>
+      </div>
+      <div class="process-step">
+        <p class="process-num">02</p>
+        <h3>A real overlap</h3>
+        <p>Every country page states the working overlap and the time zone. Calls are booked inside it; everything else is written.</p>
+      </div>
+      <div class="process-step">
+        <p class="process-num">03</p>
+        <h3>Local commercial detail</h3>
+        <p>Currency, invoicing, language support and typical kickoff time — the things that decide whether a project is practical.</p>
+      </div>
+      <div class="process-step">
+        <p class="process-num">04</p>
+        <h3>No invented proof</h3>
+        <p>We will not pretend to have an office or a client in your city. If it is not true, it is not on the page.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="section-index">03 — Start here</p>
+      <div>
+        <h2>Popular <span class="serif">cities.</span></h2>
+        <p class="lede">A few of the places clients ask about most. The full directory sits inside each country.</p>
+      </div>
+    </div>
+    <div class="city-grid">
+      <% cities.forEach(function(c){ %>
+      <a class="city-chip" href="/market-area/<%= c.country_slug %>/<%= c.state_slug %>/<%= c.city_slug %>"><%= c.name %></a>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<section class="cta">
+  <div class="wrap">
+    <p class="eyebrow">Not on the list?</p>
+    <h2>We will come <span class="serif">to the map.</span></h2>
+    <div class="cta-row">
+      <p class="lede" style="max-width:38ch">If you are somewhere we have not listed, ask. The directory grows from real enquiries, not a gazetteer.</p>
+      <div class="cta-actions">
+        <a class="btn btn--dark btn--lg" href="/contact">Talk to us <%- icon('arrow', 18) %></a>
+        <a class="btn btn--lg" href="/services">See all services</a>
+      </div>
+    </div>
+  </div>
+</section>

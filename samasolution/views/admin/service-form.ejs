@@ -1,0 +1,165 @@
+<form method="post" action="/admin/services">
+  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+  <% if (service) { %><input type="hidden" name="id" value="<%= service.id %>"><% } %>
+
+  <div class="split" style="margin-bottom:16px">
+    <a class="btn btn--ghost btn--sm" href="/admin/services">← All services</a>
+    <div style="display:flex;gap:8px">
+      <% if (service) { %>
+      <a class="btn btn--ghost btn--sm" href="/services/<%= service.slug %>" target="_blank" rel="noopener">View live</a>
+      <% } %>
+      <button class="btn btn--sm" type="submit">Save service</button>
+    </div>
+  </div>
+
+  <div class="grid grid-main">
+    <div class="stack">
+      <div class="card">
+        <div class="card__head"><div><h2>Basics</h2><p>How the service appears in lists and navigation.</p></div></div>
+        <div class="card__body">
+          <div class="fgrid">
+            <div class="frow">
+              <label for="name">Service name</label>
+              <input class="input" id="name" name="name" value="<%= service ? service.name : '' %>" required>
+            </div>
+            <div class="frow">
+              <label for="slug">URL slug</label>
+              <input class="input" id="slug" name="slug" value="<%= service ? service.slug : '' %>" placeholder="auto-from-name">
+              <p class="help">/services/<span id="slugPreview"><%= service ? service.slug : '…' %></span></p>
+            </div>
+          </div>
+          <div class="frow">
+            <label for="category_id">Category</label>
+            <select class="select" id="category_id" name="category_id">
+              <% categories.forEach(function(cat){ %>
+              <option value="<%= cat.id %>" <%= service && service.category_id === cat.id ? 'selected' : '' %>><%= cat.name %></option>
+              <% }) %>
+            </select>
+          </div>
+          <div class="frow">
+            <label for="tagline">Tagline</label>
+            <input class="input" id="tagline" name="tagline" value="<%= service ? service.tagline : '' %>" placeholder="One line that earns the next sentence.">
+          </div>
+          <div class="frow">
+            <label for="summary">Summary</label>
+            <textarea class="textarea" id="summary" name="summary" style="min-height:80px"><%= service ? service.summary : '' %></textarea>
+            <p class="help">Used on cards, search results and as the meta description fallback.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card__head">
+          <div><h2>Body copy</h2><p>Leave a blank line between paragraphs. Plain text only.</p></div>
+        </div>
+        <div class="card__body">
+          <div class="frow">
+            <label for="body">Description</label>
+            <textarea class="textarea textarea--body" id="body" name="body" placeholder="Two or three paragraphs explaining the service."><%= typeof bodyText !== 'undefined' ? bodyText : '' %></textarea>
+          </div>
+          <div class="frow">
+            <label for="deliverables">Deliverables</label>
+            <textarea class="textarea" id="deliverables" name="deliverables" placeholder="One per line"><%= typeof deliverablesText !== 'undefined' ? deliverablesText : '' %></textarea>
+            <p class="help">One item per line. Rendered as the “What you get” grid.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card__head"><div><h2>Commercials</h2><p>These appear beside the copy and in the quote flow.</p></div></div>
+        <div class="card__body">
+          <div class="fgrid">
+            <div class="frow">
+              <label for="best_for">Best for</label>
+              <input class="input" id="best_for" name="best_for" value="<%= service ? service.best_for : '' %>">
+            </div>
+            <div class="frow">
+              <label for="timeline">Timeline</label>
+              <input class="input" id="timeline" name="timeline" value="<%= service ? service.timeline : '' %>" placeholder="3–6 weeks">
+            </div>
+            <div class="frow">
+              <label for="price_from">Starting price</label>
+              <input class="input" id="price_from" name="price_from" value="<%= service ? service.price_from : '' %>" placeholder="₹75,000">
+            </div>
+            <div class="frow">
+              <label for="sort">Sort order</label>
+              <input class="input" id="sort" name="sort" type="number" value="<%= service ? service.sort : 0 %>">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stack">
+      <div class="card">
+        <div class="card__head"><div><h2>Publishing</h2></div></div>
+        <div class="card__body">
+          <div class="frow">
+            <label for="icon">Icon</label>
+            <div style="display:flex;gap:8px;align-items:center">
+              <span class="icon-preview" id="iconPreview"><%- icon(service ? service.icon : 'spark', 18) %></span>
+              <select class="select" id="icon" name="icon">
+                <% iconKeys.forEach(function(key){ %>
+                <option value="<%= key %>" <%= service && service.icon === key ? 'selected' : '' %>><%= key %></option>
+                <% }) %>
+              </select>
+            </div>
+          </div>
+          <div class="frow">
+            <label for="image">Image path</label>
+            <input class="input" id="image" name="image" value="<%= service ? service.image : '' %>" placeholder="/img/service-web.jpg">
+            <p class="help">Use a file from <a href="/admin/media" style="text-decoration:underline">Media</a>.</p>
+          </div>
+          <div class="frow">
+            <label class="check"><input type="checkbox" name="featured" <%= service && service.featured ? 'checked' : '' %>> Feature on home &amp; city pages</label>
+            <label class="check"><input type="checkbox" name="active" <%= !service || service.active ? 'checked' : '' %>> Published</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card__head">
+          <div><h2>SEO</h2><p>Auto-generated where left blank.</p></div>
+        </div>
+        <div class="card__body">
+          <div class="frow">
+            <label for="meta_title">Meta title</label>
+            <input class="input" id="meta_title" name="meta_title" value="<%= service ? service.meta_title : '' %>" maxlength="70" data-seo-title>
+            <p class="help"><span data-count-for="meta_title">0</span>/70 characters</p>
+          </div>
+          <div class="frow">
+            <label for="meta_description">Meta description</label>
+            <textarea class="textarea" id="meta_description" name="meta_description" style="min-height:80px" maxlength="160" data-seo-desc><%= service ? service.meta_description : '' %></textarea>
+            <p class="help"><span data-count-for="meta_description">0</span>/160 characters</p>
+          </div>
+          <div class="frow">
+            <label for="meta_keywords">Meta keywords</label>
+            <textarea class="textarea" id="meta_keywords" name="meta_keywords" style="min-height:90px" data-keywords><%= service ? service.meta_keywords : '' %></textarea>
+            <p class="help">Formula: [Service] + [Company/Agency] + [India]. <button type="button" class="btn btn--ghost btn--sm" data-suggest-keywords>Suggest</button></p>
+          </div>
+        </div>
+      </div>
+
+      <% if (service) { %>
+      <div class="card">
+        <div class="card__head"><div><h2>Delete</h2></div></div>
+        <div class="card__body">
+          <p class="small muted" style="margin-top:0">Removes the service and all of its city pages.</p>
+          <button class="btn btn--danger btn--sm" type="submit" form="deleteService">Delete service</button>
+        </div>
+      </div>
+      <% } %>
+    </div>
+  </div>
+
+  <div class="split" style="margin-top:16px">
+    <a class="btn btn--ghost" href="/admin/services">Cancel</a>
+    <button class="btn" type="submit">Save service</button>
+  </div>
+</form>
+
+<% if (service) { %>
+<form id="deleteService" method="post" action="/admin/services/<%= service.id %>/delete" data-confirm="Delete this service and all of its city pages?">
+  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+</form>
+<% } %>

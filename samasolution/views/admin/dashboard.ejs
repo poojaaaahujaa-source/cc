@@ -1,0 +1,134 @@
+<div class="grid grid-4" style="margin-bottom:16px">
+  <div class="stat-tile">
+    <span>Total inquiries</span>
+    <strong><%= stats.total %></strong>
+    <em><%= stats.quoted %> quoted · <%= stats.won %> won</em>
+  </div>
+  <div class="stat-tile">
+    <span>Awaiting reply</span>
+    <strong><%= stats.new %></strong>
+    <em><%= stats.new ? 'Needs attention today' : 'Inbox is clear' %></em>
+  </div>
+  <div class="stat-tile">
+    <span>Last 7 days</span>
+    <strong><%= stats.week %></strong>
+    <em>New enquiries this week</em>
+  </div>
+  <div class="stat-tile">
+    <span>Win rate</span>
+    <strong><%= stats.conversion %>%</strong>
+    <em>Won against all enquiries</em>
+  </div>
+</div>
+
+<div class="grid grid-main" style="margin-bottom:16px">
+  <div class="stack">
+    <div class="card">
+      <div class="card__head">
+        <div>
+          <h2>Enquiries, last 14 days</h2>
+          <p>Every submission from the website, including city and service pages.</p>
+        </div>
+        <span class="pill"><%= days.reduce(function(n, d){ return n + d.n; }, 0) %> total</span>
+      </div>
+      <div class="card__body">
+        <div class="chart">
+          <% days.forEach(function(day, i){ %>
+          <div class="chart-bar <%= i === days.length - 1 ? 'is-today' : '' %>" title="<%= day.label %>: <%= day.n %>">
+            <b><%= day.n ? day.n : '' %></b>
+            <i style="height:<%= Math.max(2, Math.round((day.n / peak) * 100)) %>%"></i>
+            <span><%= i % 2 === 0 ? day.label : '' %></span>
+          </div>
+          <% }) %>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card__head">
+        <div><h2>Latest inquiries</h2><p>The seven most recent submissions.</p></div>
+        <a class="btn btn--ghost btn--sm" href="/admin/inquiries">View all</a>
+      </div>
+      <div class="table-wrap">
+        <table class="data">
+          <thead>
+            <tr><th>Name</th><th>Service</th><th>Location</th><th>Received</th><th>Status</th></tr>
+          </thead>
+          <tbody>
+            <% recent.forEach(function(row){ %>
+            <tr>
+              <td>
+                <a href="/admin/inquiries/<%= row.id %>" class="strong"><%= row.name %></a>
+                <div class="sub"><%= row.email %></div>
+              </td>
+              <td><%= row.service_name || '—' %></td>
+              <td><%= [row.city, row.country].filter(Boolean).join(', ') || '—' %></td>
+              <td class="sub"><%= helpers.timeAgo(row.created_at) %></td>
+              <td><span class="badge badge--<%= row.status %>"><%= row.status %></span></td>
+            </tr>
+            <% }) %>
+            <% if (!recent.length) { %>
+            <tr><td colspan="5" class="empty">No inquiries yet.</td></tr>
+            <% } %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="stack">
+    <div class="card">
+      <div class="card__head"><div><h2>Quick actions</h2></div></div>
+      <div class="card__body" style="display:grid;gap:8px">
+        <a class="btn btn--ghost" href="/admin/services/new">Add a service</a>
+        <a class="btn btn--ghost" href="/admin/blog/new">Write an article</a>
+        <a class="btn btn--ghost" href="/admin/locations">Add a location</a>
+        <a class="btn btn--ghost" href="/admin/pages/home">Edit home page</a>
+        <a class="btn btn--ghost" href="/admin/inquiries/export.csv">Export inquiries (CSV)</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card__head"><div><h2>Market coverage</h2><p>Live from the location database.</p></div></div>
+      <div class="card__body">
+        <div class="kv">
+          <dt>Countries</dt><dd><%= market.countries %></dd>
+          <dt>States</dt><dd><%= market.states %></dd>
+          <dt>Cities</dt><dd><%= market.cities %></dd>
+          <dt>Service lines</dt><dd><%= market.services %></dd>
+          <dt>Local pages</dt><dd><%= helpers.numberFmt(market.pages) %></dd>
+        </div>
+        <a class="btn btn--ghost btn--sm" style="margin-top:14px;width:100%" href="/admin/locations">Manage locations</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card__head"><div><h2>Top cities</h2><p>By enquiry volume.</p></div></div>
+      <div class="card__body">
+        <% if (topCities.length) { %>
+        <table class="data" style="font-size:12.5px">
+          <% topCities.forEach(function(c){ %>
+          <tr><td><%= c.city %></td><td style="text-align:right" class="num"><%= c.n %></td></tr>
+          <% }) %>
+        </table>
+        <% } else { %><p class="muted small" style="margin:0">No location data yet.</p><% } %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card__head"><div><h2>Most requested services</h2><p>Where the demand is coming from.</p></div></div>
+  <div class="card__body">
+    <% if (topServices.length) { %>
+    <div class="grid grid-3">
+      <% topServices.forEach(function(s){ %>
+      <div style="border:1px solid var(--line);border-radius:6px;padding:14px 16px">
+        <div class="small muted"><%= s.n %> enquir<%= s.n === 1 ? 'y' : 'ies' %></div>
+        <div style="font-weight:550;margin-top:4px"><%= s.service_name %></div>
+      </div>
+      <% }) %>
+    </div>
+    <% } else { %><p class="muted small" style="margin:0">No service data yet.</p><% } %>
+  </div>
+</div>

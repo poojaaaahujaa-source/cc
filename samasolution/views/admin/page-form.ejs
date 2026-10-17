@@ -1,0 +1,74 @@
+<form method="post" action="/admin/pages/<%= page.slug %>">
+  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+  <div class="split" style="margin-bottom:16px">
+    <a class="btn btn--ghost btn--sm" href="/admin/pages">← Pages</a>
+    <div style="display:flex;gap:8px">
+      <a class="btn btn--ghost btn--sm" href="/<%= page.slug %>" target="_blank" rel="noopener">View live</a>
+      <button class="btn btn--sm" type="submit">Save page</button>
+    </div>
+  </div>
+
+  <div class="grid grid-main">
+    <div class="card">
+      <div class="card__head"><div><h2>Content</h2><p>Markdown: headings, lists, quotes, links, code.</p></div></div>
+      <div class="card__body">
+        <div class="fgrid">
+          <div class="frow">
+            <label for="title">Title</label>
+            <input class="input" id="title" name="title" value="<%= page.title %>">
+          </div>
+          <div class="frow">
+            <label>URL</label>
+            <input class="input" value="/<%= page.slug %>" disabled>
+          </div>
+        </div>
+        <div class="frow">
+          <label for="h1">Page heading (H1)</label>
+          <input class="input" id="h1" name="h1" value="<%= page.h1 %>">
+        </div>
+        <div class="frow">
+          <label for="intro">Intro</label>
+          <textarea class="textarea" id="intro" name="intro" style="min-height:70px"><%= page.intro %></textarea>
+        </div>
+        <div class="frow">
+          <label for="body">Body</label>
+          <textarea class="textarea textarea--tall" id="body" name="body"><%= page.body %></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="stack">
+      <div class="card">
+        <div class="card__head"><div><h2>Publishing</h2></div></div>
+        <div class="card__body">
+          <label class="check"><input type="checkbox" name="active" <%= page.active ? 'checked' : '' %>> Page is live</label>
+          <p class="help" style="margin-top:10px">Last updated <%= helpers.formatDateTime(page.updated_at) %>.</p>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card__head"><div><h2>SEO</h2></div></div>
+        <div class="card__body">
+          <div class="frow">
+            <label for="meta_title">Meta title</label>
+            <input class="input" id="meta_title" name="meta_title" value="<%= page.meta_title %>" maxlength="70" data-seo-title>
+            <p class="help"><span data-count-for="meta_title">0</span>/70</p>
+          </div>
+          <div class="frow">
+            <label for="meta_description">Meta description</label>
+            <textarea class="textarea" id="meta_description" name="meta_description" style="min-height:80px" maxlength="160" data-seo-desc><%= page.meta_description %></textarea>
+            <p class="help"><span data-count-for="meta_description">0</span>/160</p>
+          </div>
+          <div class="frow">
+            <label for="meta_keywords">Meta keywords</label>
+            <textarea class="textarea" id="meta_keywords" name="meta_keywords" style="min-height:70px"><%= page.meta_keywords %></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="split" style="margin-top:16px">
+    <a class="btn btn--ghost" href="/admin/pages">Cancel</a>
+    <button class="btn" type="submit">Save page</button>
+  </div>
+</form>

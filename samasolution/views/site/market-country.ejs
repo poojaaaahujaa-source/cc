@@ -1,0 +1,93 @@
+<section class="market-hero">
+  <div class="wrap">
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a><span class="sep">/</span>
+      <a href="/market-area">Market area</a><span class="sep">/</span>
+      <span><%= country.name %></span>
+    </nav>
+    <p class="eyebrow"><%= country.code %> · <%= country.timezone %></p>
+    <h1>Working in <span class="serif"><%= country.label || country.name %>.</span></h1>
+    <p class="lede" style="margin-top:22px"><%= country.intro %></p>
+
+    <div class="chips">
+      <span class="chip"><%- icon('pin', 14) %> <%= country.city_count %> cities</span>
+      <span class="chip"><%- icon('layers', 14) %> <%= country.state_count %> states &amp; provinces</span>
+      <span class="chip"><%- icon('clock', 14) %> <%= country.overlap %></span>
+    </div>
+
+    <div class="market-stats">
+      <div><strong><%= country.state_count %></strong><span>States / provinces</span></div>
+      <div><strong><%= country.city_count %></strong><span>Cities</span></div>
+      <div><strong><%= country.currency %></strong><span>Quoted in</span></div>
+      <div><strong><%= country.kickoff.replace('Kickoff in ', '') %></strong><span>Typical kickoff</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="section-index">01 — Local detail</p>
+      <div>
+        <h2>What changes when the work <span class="serif">leaves India.</span></h2>
+        <p class="lede"><%= billing %></p>
+      </div>
+    </div>
+    <div class="facts">
+      <div class="fact"><span>Currency</span><strong><%= country.currency %></strong></div>
+      <div class="fact"><span>Time zone</span><strong><%= country.timezone %></strong></div>
+      <div class="fact"><span>Working overlap</span><strong><%= country.overlap %></strong></div>
+      <div class="fact"><span>Languages</span><strong><%= country.languages %></strong></div>
+      <div class="fact"><span>Typical kickoff</span><strong><%= country.kickoff %></strong></div>
+      <div class="fact"><span>Delivery model</span><strong>Remote-first, senior team, written updates</strong></div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--line">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="section-index">02 — States &amp; provinces</p>
+      <div><h2>Pick a <span class="serif">region.</span></h2></div>
+    </div>
+    <div class="state-grid">
+      <% states.forEach(function(s){ %>
+      <a class="state-card" href="/market-area/<%= country.slug %>/<%= s.slug %>">
+        <span style="color:inherit;font-size:inherit;letter-spacing:0"><%= s.name %></span>
+        <span><%= s.city_count %> <%= s.city_count === 1 ? 'city' : 'cities' %></span>
+      </a>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="section-index">03 — Cities</p>
+      <div>
+        <h2>Places we are <span class="serif">already working.</span></h2>
+        <p class="lede">A selection from across the country. Every city page carries the local commercial detail.</p>
+      </div>
+    </div>
+    <div class="city-grid">
+      <% cities.forEach(function(c){ %>
+      <a class="city-chip" href="/market-area/<%= country.slug %>/<%= c.state_slug %>/<%= c.city_slug %>"><%= c.name %></a>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<section class="cta">
+  <div class="wrap">
+    <p class="eyebrow"><%= country.name %></p>
+    <h2>Let’s talk about <span class="serif">your project.</span></h2>
+    <div class="cta-row">
+      <p class="lede" style="max-width:38ch"><%= country.kickoff %>. Send a short brief and we will reply with questions, a range and a suggested next step.</p>
+      <div class="cta-actions">
+        <a class="btn btn--dark btn--lg" href="/contact">Start a project <%- icon('arrow', 18) %></a>
+        <a class="btn btn--lg" href="mailto:<%= site.contact_email %>"><%= site.contact_email %></a>
+      </div>
+    </div>
+  </div>
+</section>

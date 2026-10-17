@@ -1,0 +1,105 @@
+<form method="post" action="/admin/settings">
+  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+  <div class="split" style="margin-bottom:16px">
+    <span class="small muted">Site-wide settings, used by every template.</span>
+    <button class="btn btn--sm" type="submit">Save settings</button>
+  </div>
+
+  <div class="grid grid-main">
+    <div class="stack">
+      <div class="card">
+        <div class="card__head"><div><h2>Identity</h2><p>How the studio is named and described.</p></div></div>
+        <div class="card__body">
+          <div class="fgrid">
+            <div class="frow"><label for="site_name">Site name</label><input class="input" id="site_name" name="site_name" value="<%= site.site_name %>"></div>
+            <div class="frow"><label for="site_tagline">Tagline</label><input class="input" id="site_tagline" name="site_tagline" value="<%= site.site_tagline %>"></div>
+          </div>
+          <div class="frow">
+            <label for="site_description">Site description</label>
+            <textarea class="textarea" id="site_description" name="site_description"><%= site.site_description %></textarea>
+            <p class="help">Used in Organization schema and as the default description.</p>
+          </div>
+          <div class="frow">
+            <label for="site_url">Canonical site URL</label>
+            <input class="input" id="site_url" name="site_url" value="<%= site.site_url %>" placeholder="https://www.samasolution.in">
+            <p class="help">No trailing slash. Used for canonicals, sitemaps and Open Graph.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card__head"><div><h2>Contact</h2><p>Shown in the header, footer, contact page and structured data.</p></div></div>
+        <div class="card__body">
+          <div class="fgrid">
+            <div class="frow"><label for="contact_email">Email</label><input class="input" id="contact_email" name="contact_email" value="<%= site.contact_email %>"></div>
+            <div class="frow"><label for="contact_phone">Phone (display)</label><input class="input" id="contact_phone" name="contact_phone" value="<%= site.contact_phone %>"></div>
+            <div class="frow"><label for="contact_phone_raw">Phone (dial format)</label><input class="input" id="contact_phone_raw" name="contact_phone_raw" value="<%= site.contact_phone_raw %>"></div>
+            <div class="frow"><label for="whatsapp">WhatsApp number</label><input class="input" id="whatsapp" name="whatsapp" value="<%= site.whatsapp %>"></div>
+            <div class="frow"><label for="contact_city">City</label><input class="input" id="contact_city" name="contact_city" value="<%= site.contact_city %>"></div>
+            <div class="frow"><label for="contact_country">Country code</label><input class="input" id="contact_country" name="contact_country" value="<%= site.contact_country %>" maxlength="2"></div>
+          </div>
+          <div class="frow"><label for="address">Address line</label><input class="input" id="address" name="address" value="<%= site.address %>"></div>
+          <div class="frow"><label for="hours">Working hours</label><input class="input" id="hours" name="hours" value="<%= site.hours %>"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card__head"><div><h2>Social profiles</h2><p>Also used in the Organization schema.</p></div></div>
+        <div class="card__body">
+          <% const socials = site.social_links || []; %>
+          <% for (let i = 0; i < 4; i += 1) { const s = socials[i] || {}; %>
+          <div class="fgrid" style="margin-bottom:10px">
+            <div class="frow"><label>Label</label><input class="input" name="social_label_<%= i %>" value="<%= s.label || '' %>" placeholder="Instagram"></div>
+            <div class="frow"><label>URL</label><input class="input" name="social_url_<%= i %>" value="<%= s.url || '' %>" placeholder="https://…"></div>
+          </div>
+          <% } %>
+        </div>
+      </div>
+    </div>
+
+    <div class="stack">
+      <div class="card">
+        <div class="card__head"><div><h2>Analytics</h2></div></div>
+        <div class="card__body">
+          <div class="frow">
+            <label for="analytics_id">Google Analytics ID</label>
+            <input class="input" id="analytics_id" name="analytics_id" value="<%= site.analytics_id %>" placeholder="G-XXXXXXX">
+            <p class="help">Leave blank to load no third-party scripts.</p>
+          </div>
+          <div class="frow">
+            <label for="google_site_verification">Search Console verification</label>
+            <input class="input" id="google_site_verification" name="google_site_verification" value="<%= site.google_site_verification || '' %>" placeholder="content value">
+            <p class="help">Rendered as a meta tag on every page.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card__head"><div><h2>Footer</h2></div></div>
+        <div class="card__body">
+          <div class="frow">
+            <label for="footer_note">Footer note</label>
+            <input class="input" id="footer_note" name="footer_note" value="<%= site.footer_note %>">
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card__head"><div><h2>Environment</h2></div></div>
+        <div class="card__body">
+          <div class="kv">
+            <dt>Node</dt><dd class="mono"><%= process.version %></dd>
+            <dt>Database</dt><dd class="mono">SQLite · data/site.db</dd>
+            <dt>Uploads</dt><dd class="mono">public/uploads</dd>
+            <dt>Content version</dt><dd class="mono"><%= site.content_version %></dd>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="split" style="margin-top:16px">
+    <span class="small muted">Changes are cached until the next content version bump.</span>
+    <button class="btn" type="submit">Save settings</button>
+  </div>
+</form>

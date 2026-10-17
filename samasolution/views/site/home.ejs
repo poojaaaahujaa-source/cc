@@ -1,0 +1,237 @@
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <p class="eyebrow"><%= site.home_eyebrow %></p>
+        <h1><%= site.home_title %> <em class="serif"><%= site.home_title_em %></em></h1>
+      </div>
+      <div class="hero-aside">
+        <p class="lede"><%= site.home_lede %></p>
+        <div class="hero-actions">
+          <a class="btn btn--dark" href="/contact">Start a project <%- icon('arrow', 17) %></a>
+          <a class="btn" href="/services">Explore services</a>
+        </div>
+        <p class="hero-note"><%= site.home_note %></p>
+      </div>
+    </div>
+
+    <figure class="hero-media media-wide reveal">
+      <img src="/img/hero.jpg" alt="Monochrome architectural study — concrete planes and hard afternoon light" width="1600" height="686" fetchpriority="high">
+      <figcaption>Studio · New Delhi</figcaption>
+      <span class="media-label">Est. 2013</span>
+    </figure>
+  </div>
+</section>
+
+<div class="marquee" aria-hidden="true">
+  <div class="marquee__track">
+    <% const ticker = ['Web design', 'Shopify', 'WordPress', 'Apps', 'SEO', 'Performance marketing', 'Branding', 'Content', 'Market area']; %>
+    <% for (let pass = 0; pass < 2; pass++) { %>
+    <span>
+      <% ticker.forEach(function(t){ %><%= t %> <i>✳</i> <% }) %>
+    </span>
+    <% } %>
+  </div>
+</div>
+
+<section class="section">
+  <div class="wrap">
+    <div class="manifesto">
+      <p class="eyebrow">01 — The studio</p>
+      <div>
+        <p><%= site.home_manifesto %></p>
+        <div class="stats">
+          <% stats.forEach(function(stat, i){ %>
+          <div class="stat">
+            <div class="stat-value"><%= stat.value %></div>
+            <div class="stat-label"><%= stat.label %></div>
+            <div class="stat-note"><%= stat.note %></div>
+          </div>
+          <% }) %>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--line" id="services">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="section-index">02 — What we do</p>
+      <div>
+        <h2>Everything a growing business needs, <span class="serif">under one roof.</span></h2>
+        <p class="lede">Ten disciplines, forty-four service lines. You can hire us for one project or keep us for the year — the standard does not change.</p>
+      </div>
+    </div>
+
+    <div class="cat-grid">
+      <% categories.forEach(function(cat, i){ %>
+      <a class="cat-card" href="/services#<%= cat.slug %>">
+        <span class="cat-index"><%= String(i + 1).padStart(2, '0') %></span>
+        <span>
+          <span class="cat-name"><%= cat.name %></span>
+          <span class="cat-blurb"><%= cat.blurb %></span>
+        </span>
+        <span class="cat-count"><%= cat.services.length %> services</span>
+        <span class="arrow"><%- icon('arrow', 20) %></span>
+      </a>
+      <% }) %>
+    </div>
+    <div style="margin-top:32px;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap">
+      <p class="small" style="margin:0">Every engagement starts with a written scope. No open-ended discovery invoices.</p>
+      <a class="link-arrow" href="/services">See all 44 services <%- icon('arrow', 16) %></a>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="work">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="section-index">03 — Selected work</p>
+      <div>
+        <h2>Quiet work for <span class="serif">serious businesses.</span></h2>
+        <p class="lede">A few engagements that show how strategy, design and engineering fit together. Client names are withheld; the numbers are not.</p>
+      </div>
+    </div>
+
+    <div class="work-grid">
+      <% work.forEach(function(item){ %>
+      <a class="work-card reveal" href="/contact">
+        <div class="work-media">
+          <img src="<%= item.image %>" alt="<%= item.title %>" loading="lazy" width="800" height="600">
+        </div>
+        <div class="work-top">
+          <h3><%= item.title %></h3>
+          <span class="work-sector"><%= item.sector %></span>
+        </div>
+        <p class="work-scope"><%= item.scope %> · <%= item.year %></p>
+        <div class="work-metric">
+          <strong><%= item.metric %></strong>
+          <span><%= item.metricLabel %></span>
+        </div>
+      </a>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<section class="section section--line">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="section-index">04 — How we work</p>
+      <div>
+        <h2>Four steps. <span class="serif">No theatre.</span></h2>
+      </div>
+    </div>
+    <div class="process">
+      <div class="process-step">
+        <p class="process-num">01</p>
+        <h3>Discovery</h3>
+        <p>A 60–90 minute working session, then a written brief. We agree what success looks like before anyone opens a design file.</p>
+      </div>
+      <div class="process-step">
+        <p class="process-num">02</p>
+        <h3>Direction</h3>
+        <p>Two design routes, one chosen. Type, grid, imagery and motion are decided together, in context.</p>
+      </div>
+      <div class="process-step">
+        <p class="process-num">03</p>
+        <h3>Build</h3>
+        <p>Hand-coded, responsive, accessible. A staging link from week one and a weekly demo you can actually click through.</p>
+      </div>
+      <div class="process-step">
+        <p class="process-num">04</p>
+        <h3>Launch &amp; after</h3>
+        <p>Redirects, analytics, Core Web Vitals and a 30-day watch list. Then a plan for what happens next.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="market-area">
+  <div class="wrap band-grid">
+    <div>
+      <p class="eyebrow">05 — Market area</p>
+      <h2>Seven countries. <span class="serif">Local pages that mean something.</span></h2>
+      <p class="lede" style="margin-top:20px">Most agencies stop at a city page with the name swapped in. Ours carry the currency, the working hours, the language reality and the way a project actually runs in that market.</p>
+      <p style="margin-top:26px"><a class="btn" style="border-color:rgba(255,255,255,.5);color:#fff" href="/market-area">Explore the market area <%- icon('arrow', 17) %></a></p>
+      <div class="country-list">
+        <% countries.forEach(function(c){ %>
+        <a class="country-row" href="/market-area/<%= c.slug %>">
+          <span><%= c.label || c.name %></span>
+          <span><%= c.state_count %> states · <%= c.city_count %> cities</span>
+        </a>
+        <% }) %>
+      </div>
+    </div>
+    <div>
+      <div class="band-stats">
+        <div class="band-stat"><strong><%= market.countries %></strong><span>Countries</span></div>
+        <div class="band-stat"><strong><%= market.states %></strong><span>States &amp; provinces</span></div>
+        <div class="band-stat"><strong><%= market.cities %></strong><span>Cities</span></div>
+        <div class="band-stat"><strong><%= helpers.numberFmt(market.pages) %></strong><span>Local service pages</span></div>
+      </div>
+      <div style="margin-top:26px">
+        <p class="eyebrow eyebrow--bare" style="color:rgba(255,255,255,.5)">A few places we work</p>
+        <div class="chips" style="margin-top:10px">
+          <% cities.forEach(function(c){ %>
+          <a class="chip" style="background:transparent;border-color:rgba(255,255,255,.25);color:#fff" href="/market-area/<%= c.country_slug %>/<%= c.state_slug %>/<%= c.city_slug %>"><%= c.name %></a>
+          <% }) %>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="section-index">06 — In their words</p>
+      <div><h2>What clients say when <span class="serif">nobody is selling.</span></h2></div>
+    </div>
+    <div class="quotes">
+      <% testimonials.forEach(function(t){ %>
+      <div class="quote">
+        <blockquote><%= t.quote %></blockquote>
+        <footer><strong><%= t.name %></strong><span><%= t.detail %></span></footer>
+      </div>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<section class="section section--line">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="section-index">07 — Insights</p>
+      <div>
+        <h2>Notes from <span class="serif">the work.</span></h2>
+        <p class="lede">Practical writing on design, performance, search and the business of being findable.</p>
+      </div>
+    </div>
+    <div class="blog-grid">
+      <% posts.forEach(function(post){ %>
+      <a class="post-card" href="/blog/<%= post.slug %>">
+        <div class="thumb"><img src="<%= post.cover %>" alt="<%= post.title %>" loading="lazy" width="800" height="600"></div>
+        <div class="post-meta"><span><%= post.category %></span><span>·</span><span><%= helpers.formatDate(post.published_at, 'short') %></span><span>·</span><span><%= post.read_minutes %> min</span></div>
+        <h3><%= post.title %></h3>
+        <p><%= post.excerpt %></p>
+      </a>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<section class="cta">
+  <div class="wrap">
+    <p class="eyebrow">Next step</p>
+    <h2>Let’s build something <span class="serif">that works.</span></h2>
+    <div class="cta-row">
+      <p class="lede" style="max-width:38ch">Tell us what you are launching, fixing or trying to grow. You will get a reply within one working day — from the person who would run the project.</p>
+      <div class="cta-actions">
+        <a class="btn btn--dark btn--lg" href="/contact">Start a project <%- icon('arrow', 18) %></a>
+        <a class="btn btn--lg" href="mailto:<%= site.contact_email %>"><%= site.contact_email %></a>
+      </div>
+    </div>
+  </div>
+</section>

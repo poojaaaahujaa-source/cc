@@ -1,0 +1,80 @@
+<div class="card" style="margin-bottom:16px">
+  <div class="card__head"><div><h2>Add a category</h2><p>Categories group services in navigation and on the services page.</p></div></div>
+  <form method="post" action="/admin/categories">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    <div class="card__body">
+      <div class="fgrid-3">
+        <div class="frow"><label for="new-name">Name</label><input class="input" id="new-name" name="name" required></div>
+        <div class="frow"><label for="new-slug">Slug</label><input class="input" id="new-slug" name="slug" placeholder="auto"></div>
+        <div class="frow"><label for="new-short">Short label</label><input class="input" id="new-short" name="short" placeholder="Websites"></div>
+      </div>
+      <div class="frow"><label for="new-blurb">Blurb</label><input class="input" id="new-blurb" name="blurb"></div>
+      <div class="frow"><label for="new-lede">Lede</label><textarea class="textarea" id="new-lede" name="lede" style="min-height:70px"></textarea></div>
+      <div class="fgrid-3">
+        <div class="frow"><label for="new-icon">Icon</label><input class="input" id="new-icon" name="icon" value="spark"></div>
+        <div class="frow"><label for="new-image">Image path</label><input class="input" id="new-image" name="image" placeholder="/img/service-web.jpg"></div>
+        <div class="frow"><label for="new-sort">Sort</label><input class="input" id="new-sort" name="sort" type="number" value="<%= rows.length %>"></div>
+      </div>
+    </div>
+    <div class="form-foot">
+      <span class="small muted">Icon names come from the built-in set (layout, cart, search…).</span>
+      <button class="btn" type="submit">Create category</button>
+    </div>
+  </form>
+</div>
+
+<div class="stack">
+  <% rows.forEach(function(cat){ %>
+  <details class="card">
+    <summary>
+      <span style="display:flex;align-items:center;gap:12px">
+        <span class="icon-preview"><%- icon(cat.icon, 17) %></span>
+        <span>
+          <strong style="display:block;font-size:14px"><%= cat.name %></strong>
+          <span class="small muted">/services#<%= cat.slug %> · <%= cat.service_count %> services</span>
+        </span>
+      </span>
+      <span class="small muted">Edit ▾</span>
+    </summary>
+    <form method="post" action="/admin/categories">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      <input type="hidden" name="id" value="<%= cat.id %>">
+      <div class="card__body">
+        <div class="fgrid">
+          <div class="frow"><label>Name</label><input class="input" name="name" value="<%= cat.name %>"></div>
+          <div class="frow"><label>Slug</label><input class="input" name="slug" value="<%= cat.slug %>"></div>
+          <div class="frow"><label>Short label</label><input class="input" name="short" value="<%= cat.short %>"></div>
+          <div class="frow"><label>Icon</label><input class="input" name="icon" value="<%= cat.icon %>"></div>
+        </div>
+        <div class="frow"><label>Blurb</label><input class="input" name="blurb" value="<%= cat.blurb %>"></div>
+        <div class="frow"><label>Lede</label><textarea class="textarea" name="lede" style="min-height:70px"><%= cat.lede %></textarea></div>
+        <div class="frow">
+          <label>Process steps</label>
+          <textarea class="textarea" name="process" style="min-height:90px" placeholder="Title | Description"><%= JSON.parse(cat.process || '[]').map(function(p){ return p.title + ' | ' + p.text; }).join('\n') %></textarea>
+          <p class="help">One per line: <code>Title | Description</code></p>
+        </div>
+        <div class="frow">
+          <label>FAQs</label>
+          <textarea class="textarea" name="faqs" style="min-height:90px" placeholder="Question | Answer"><%= JSON.parse(cat.faqs || '[]').map(function(f){ return f.q + ' | ' + f.a; }).join('\n') %></textarea>
+          <p class="help">One per line: <code>Question | Answer</code></p>
+        </div>
+        <div class="fgrid">
+          <div class="frow"><label>Image path</label><input class="input" name="image" value="<%= cat.image %>"></div>
+          <div class="frow"><label>Sort</label><input class="input" name="sort" type="number" value="<%= cat.sort %>"></div>
+        </div>
+        <label class="check"><input type="checkbox" name="active" <%= cat.active ? 'checked' : '' %>> Active</label>
+      </div>
+      <div class="form-foot">
+        <span class="small muted"><%= cat.service_count %> services in this category.</span>
+        <div class="right">
+          <button class="btn btn--ghost btn--sm" type="submit" form="delCat<%= cat.id %>" <%= cat.service_count ? 'disabled' : '' %>>Delete</button>
+          <button class="btn btn--sm" type="submit">Save</button>
+        </div>
+      </div>
+    </form>
+    <form id="delCat<%= cat.id %>" method="post" action="/admin/categories/<%= cat.id %>/delete" data-confirm="Delete this category?">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    </form>
+  </details>
+  <% }) %>
+</div>

@@ -1,0 +1,37 @@
+<div class="card">
+  <div class="card__head">
+    <div><h2>Insights</h2><p><%= rows.length %> articles, newest first.</p></div>
+    <a class="btn btn--sm" href="/admin/blog/new">Write an article</a>
+  </div>
+  <div class="table-wrap">
+    <table class="data">
+      <thead><tr><th>Article</th><th>Topic</th><th>Status</th><th>Published</th><th>Read</th><th></th></tr></thead>
+      <tbody>
+        <% rows.forEach(function(post){ %>
+        <tr>
+          <td>
+            <div style="display:flex;gap:11px;align-items:center">
+              <% if (post.cover) { %><img src="<%= post.cover %>" alt="" width="46" height="34" style="object-fit:cover;border-radius:4px;border:1px solid var(--line)"><% } %>
+              <div>
+                <a class="strong" href="/admin/blog/<%= post.id %>"><%= post.title %></a>
+                <div class="sub">/blog/<%= post.slug %></div>
+              </div>
+            </div>
+          </td>
+          <td><%= post.category %></td>
+          <td><span class="badge badge--<%= post.status === 'published' ? 'won' : 'contacted' %>"><%= post.status %></span></td>
+          <td class="sub"><%= helpers.formatDate(post.published_at, 'short') %></td>
+          <td class="num"><%= post.read_minutes %> min</td>
+          <td style="text-align:right">
+            <div class="row-actions">
+              <a class="btn btn--ghost btn--sm" href="/blog/<%= post.slug %>" target="_blank" rel="noopener">View</a>
+              <a class="btn btn--ghost btn--sm" href="/admin/blog/<%= post.id %>">Edit</a>
+            </div>
+          </td>
+        </tr>
+        <% }) %>
+        <% if (!rows.length) { %><tr><td colspan="6" class="empty">No articles yet.</td></tr><% } %>
+      </tbody>
+    </table>
+  </div>
+</div>

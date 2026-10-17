@@ -1,0 +1,121 @@
+<section class="page-hero service-hero">
+  <div class="wrap">
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a><span class="sep">/</span>
+      <a href="/services">Services</a><span class="sep">/</span>
+      <a href="/services#<%= category.slug %>"><%= category.short %></a><span class="sep">/</span>
+      <span><%= service.name %></span>
+    </nav>
+    <div class="page-hero__row">
+      <div>
+        <p class="eyebrow"><%= category.name %></p>
+        <h1><%= service.name %></h1>
+        <p class="tagline"><%= service.tagline %></p>
+        <p class="lede" style="margin-top:22px"><%= service.summary %></p>
+      </div>
+      <div class="page-hero__meta">
+        <div class="meta-item">Timeline<strong><%= service.timeline %></strong></div>
+        <div class="meta-item">From<strong><%= service.price_from %></strong></div>
+      </div>
+    </div>
+    <div class="hero-actions" style="margin-top:30px">
+      <a class="btn btn--dark" href="/contact?service=<%= service.slug %>">Request a quote <%- icon('arrow', 17) %></a>
+      <a class="btn" href="/market-area">Find this service in your city</a>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap service-layout">
+    <aside class="sidebar">
+      <div class="side-card">
+        <h4>At a glance</h4>
+        <dl>
+          <div class="side-row"><dt>Discipline</dt><dd><%= category.short %></dd></div>
+          <div class="side-row"><dt>Timeline</dt><dd><%= service.timeline %></dd></div>
+          <div class="side-row"><dt>Starting at</dt><dd><%= service.price_from %></dd></div>
+          <div class="side-row"><dt>Best for</dt><dd style="max-width:16ch"><%= service.best_for %></dd></div>
+        </dl>
+        <a class="btn btn--dark" href="/contact?service=<%= service.slug %>">Start a project</a>
+        <p class="small" style="margin:14px 0 0">Reply within one working day.</p>
+      </div>
+      <div class="side-card" style="margin-top:18px">
+        <h4>Available in</h4>
+        <div class="city-grid">
+          <% cities.slice(0, 6).forEach(function(c){ %>
+          <a class="city-chip" href="/market-area/<%= c.country_slug %>/<%= c.state_slug %>/<%= c.city_slug %>/<%= service.slug %>"><%= c.name %></a>
+          <% }) %>
+        </div>
+        <p class="small" style="margin:14px 0 0"><a class="link-arrow" style="font-size:12px" href="/market-area">All locations <%- icon('arrow', 13) %></a></p>
+      </div>
+    </aside>
+
+    <div>
+      <div class="prose">
+        <% body.forEach(function(para){ %><p><%= para %></p><% }) %>
+      </div>
+
+      <h2 style="margin:44px 0 20px;font-size:clamp(24px,2.2vw,32px)">What you get</h2>
+      <div class="deliverables">
+        <% deliverables.forEach(function(d){ %>
+        <div class="deliverable"><%- icon('check', 16) %><span><%= d %></span></div>
+        <% }) %>
+      </div>
+
+      <h2 style="margin:44px 0 20px;font-size:clamp(24px,2.2vw,32px)">How it runs</h2>
+      <div class="steps">
+        <% process.forEach(function(step, i){ %>
+        <div class="step">
+          <p class="step-num"><%= String(i + 1).padStart(2, '0') %></p>
+          <h3><%= step.title %></h3>
+          <p><%= step.text %></p>
+        </div>
+        <% }) %>
+      </div>
+
+      <h2 style="margin:48px 0 8px;font-size:clamp(24px,2.2vw,32px)">Questions we get asked</h2>
+      <div class="faq">
+        <% faqs.forEach(function(f){ %>
+        <details>
+          <summary><%= f.q %></summary>
+          <p><%= f.a %></p>
+        </details>
+        <% }) %>
+      </div>
+    </div>
+  </div>
+</section>
+
+<% if (catServices.length) { %>
+<section class="section section--line">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="section-index">Related</p>
+      <div><h2>More in <span class="serif"><%= category.name %>.</span></h2></div>
+    </div>
+    <div class="service-list">
+      <% catServices.forEach(function(svc, i){ %>
+      <a class="service-row" href="/services/<%= svc.slug %>">
+        <span class="num"><%= String(i + 1).padStart(2, '0') %></span>
+        <span><h3><%= svc.name %></h3><p><%= svc.tagline %></p></span>
+        <%- icon('arrow', 18) %>
+      </a>
+      <% }) %>
+    </div>
+  </div>
+</section>
+<% } %>
+
+<section class="cta">
+  <div class="wrap">
+    <p class="eyebrow"><%= service.name %></p>
+    <h2>Let’s scope it <span class="serif">properly.</span></h2>
+    <div class="cta-row">
+      <p class="lede" style="max-width:38ch">Send a brief and you will get a written response with questions, a range and a suggested next step.</p>
+      <div class="cta-actions">
+        <a class="btn btn--dark btn--lg" href="/contact?service=<%= service.slug %>">Request a quote <%- icon('arrow', 18) %></a>
+        <a class="btn btn--lg" href="tel:<%= site.contact_phone_raw %>"><%= site.contact_phone %></a>
+      </div>
+    </div>
+  </div>
+</section>

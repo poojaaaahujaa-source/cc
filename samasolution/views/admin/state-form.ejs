@@ -1,0 +1,108 @@
+<div class="split" style="margin-bottom:16px">
+  <a class="btn btn--ghost btn--sm" href="/admin/locations/country/<%= country.id %>">← <%= country.label || country.name %></a>
+  <div style="display:flex;gap:8px">
+    <a class="btn btn--ghost btn--sm" href="/market-area/<%= country.slug %>/<%= state.slug %>" target="_blank" rel="noopener">View state page</a>
+    <button class="btn btn--sm" type="submit" form="stateForm">Save state</button>
+  </div>
+</div>
+
+<div class="grid grid-main">
+  <div class="stack">
+    <form id="stateForm" method="post" action="/admin/locations/state/<%= state.id %>" class="card">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      <div class="card__head"><div><h2>State / province</h2><p><%= cities.length %> cities in this region.</p></div></div>
+      <div class="card__body">
+        <div class="fgrid">
+          <div class="frow"><label for="name">Name</label><input class="input" id="name" name="name" value="<%= state.name %>"></div>
+          <div class="frow"><label for="slug">Slug</label><input class="input" id="slug" name="slug" value="<%= state.slug %>"></div>
+        </div>
+        <label class="check"><input type="checkbox" name="active" <%= state.active ? 'checked' : '' %>> Active</label>
+      </div>
+      <div class="form-foot">
+        <span class="small muted mono">/market-area/<%= country.slug %>/<%= state.slug %></span>
+        <button class="btn btn--sm" type="submit">Save state</button>
+      </div>
+    </form>
+
+    <div class="card">
+      <div class="card__head">
+        <div><h2>Cities</h2><p>Each city gets a hub page and a page for every service.</p></div>
+      </div>
+      <div class="card__body">
+        <div class="fgrid">
+          <form method="post" action="/admin/locations/city">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <input type="hidden" name="state_id" value="<%= state.id %>">
+            <div class="frow">
+              <label for="city-name">Add one city</label>
+              <div style="display:flex;gap:6px">
+                <input class="input" id="city-name" name="name" placeholder="City name" required>
+                <button class="btn btn--ghost btn--sm" type="submit">Add</button>
+              </div>
+            </div>
+          </form>
+          <form method="post" action="/admin/locations/cities/bulk">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <input type="hidden" name="state_id" value="<%= state.id %>">
+            <div class="frow">
+              <label for="bulk">Add many (one per line or comma separated)</label>
+              <div style="display:flex;gap:6px;align-items:flex-start">
+                <textarea class="textarea" id="bulk" name="names" style="min-height:40px;height:40px" placeholder="Noida, Greater Noida, Ghaziabad"></textarea>
+                <button class="btn btn--ghost btn--sm" type="submit">Bulk add</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="stack">
+      <% cities.forEach(function(city){ %>
+      <form method="post" action="/admin/locations/city/<%= city.id %>" class="card" style="padding:12px 16px">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+          <input class="input" name="name" value="<%= city.name %>" style="max-width:230px">
+          <span class="mono muted" style="font-size:11px"><%= city.slug %></span>
+          <label class="check" style="margin-left:auto"><input type="checkbox" name="featured" <%= city.featured ? 'checked' : '' %>> Featured</label>
+          <label class="check"><input type="checkbox" name="active" <%= city.active ? 'checked' : '' %>> Active</label>
+          <div style="display:flex;gap:6px">
+            <a class="btn btn--ghost btn--sm" href="/market-area/<%= country.slug %>/<%= state.slug %>/<%= city.slug %>" target="_blank" rel="noopener">View</a>
+            <button class="btn btn--ghost btn--sm" type="submit">Save</button>
+            <button class="btn btn--danger btn--sm" type="submit" form="delCity<%= city.id %>">Delete</button>
+          </div>
+        </div>
+      </form>
+      <form id="delCity<%= city.id %>" method="post" action="/admin/locations/city/<%= city.id %>/delete" data-confirm="Delete <%= city.name %> and its pages?">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      </form>
+      <% }) %>
+      <% if (!cities.length) { %><div class="empty">No cities yet. Add one above.</div><% } %>
+    </div>
+  </div>
+
+  <div class="stack">
+    <div class="card">
+      <div class="card__head"><div><h2>Summary</h2></div></div>
+      <div class="card__body">
+        <div class="kv">
+          <dt>Country</dt><dd><%= country.label || country.name %></dd>
+          <dt>Cities</dt><dd><%= cities.length %></dd>
+          <dt>Local pages</dt><dd><%= cities.length * 44 %></dd>
+          <dt>Currency</dt><dd><%= country.currency %></dd>
+          <dt>Overlap</dt><dd><%= country.overlap %></dd>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card__head"><div><h2>Danger zone</h2></div></div>
+      <div class="card__body">
+        <p class="small muted" style="margin-top:0">Deleting this state removes all of its cities and their pages.</p>
+        <button class="btn btn--danger btn--sm" type="submit" form="deleteState">Delete state</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<form id="deleteState" method="post" action="/admin/locations/state/<%= state.id %>/delete" data-confirm="Delete <%= state.name %> and every city in it?">
+  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+</form>

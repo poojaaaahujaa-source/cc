@@ -1,0 +1,45 @@
+<div class="card">
+  <div class="card__head">
+    <div>
+      <h2>Services</h2>
+      <p><%= rows.length %> service lines. Order follows the category sort, then the service sort.</p>
+    </div>
+    <a class="btn btn--sm" href="/admin/services/new">Add service</a>
+  </div>
+  <div class="table-wrap">
+    <table class="data">
+      <thead>
+        <tr><th>Service</th><th>Category</th><th>From</th><th>Flags</th><th>Updated</th><th></th></tr>
+      </thead>
+      <tbody>
+        <% rows.forEach(function(row){ %>
+        <tr>
+          <td>
+            <div style="display:flex;align-items:center;gap:10px">
+              <span class="icon-preview"><%- icon(row.icon, 17) %></span>
+              <div>
+                <a class="strong" href="/admin/services/<%= row.id %>"><%= row.name %></a>
+                <div class="sub">/services/<%= row.slug %></div>
+              </div>
+            </div>
+          </td>
+          <td><%= row.category_name %></td>
+          <td class="sub"><%= row.price_from || '—' %></td>
+          <td>
+            <% if (row.featured) { %><span class="pill pill--dark">Featured</span><% } %>
+            <% if (!row.active) { %><span class="pill">Hidden</span><% } %>
+            <% if (!row.featured && row.active) { %><span class="sub">—</span><% } %>
+          </td>
+          <td class="sub"><%= helpers.formatDate(row.updated_at, 'short') %></td>
+          <td style="text-align:right">
+            <div class="row-actions">
+              <a class="btn btn--ghost btn--sm" href="/services/<%= row.slug %>" target="_blank" rel="noopener">View</a>
+              <a class="btn btn--ghost btn--sm" href="/admin/services/<%= row.id %>">Edit</a>
+            </div>
+          </td>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+</div>

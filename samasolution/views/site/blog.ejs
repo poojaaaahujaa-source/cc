@@ -1,0 +1,68 @@
+<section class="page-hero">
+  <div class="wrap">
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a><span class="sep">/</span><span>Insights</span>
+    </nav>
+    <div class="page-hero__row">
+      <div>
+        <p class="eyebrow">Insights</p>
+        <h1>Notes from <span class="serif">the work.</span></h1>
+        <p class="lede">Practical writing on design, performance, search and the business of being findable. No listicles, no AI filler.</p>
+      </div>
+      <div class="page-hero__meta">
+        <div class="meta-item"><%= posts.length %> <strong>Articles</strong></div>
+        <div class="meta-item"><%= categories.length %> <strong>Topics</strong></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <% if (posts.length) { const lead = posts[0]; %>
+    <a class="blog-featured" href="/blog/<%= lead.slug %>">
+      <div class="thumb"><img src="<%= lead.cover %>" alt="<%= lead.title %>" width="900" height="620" fetchpriority="high"></div>
+      <div>
+        <div class="post-meta"><span><%= lead.category %></span><span>·</span><span><%= helpers.formatDate(lead.published_at, 'short') %></span><span>·</span><span><%= lead.read_minutes %> min read</span></div>
+        <h2><%= lead.title %></h2>
+        <p><%= lead.excerpt %></p>
+        <span class="link-arrow" style="margin-top:10px">Read the article <%- icon('arrow', 15) %></span>
+      </div>
+    </a>
+    <% } %>
+
+    <% if (categories.length > 1) { %>
+    <div class="filter-row">
+      <a class="<%= activeCategory ? '' : 'is-active' %>" href="/blog">All</a>
+      <% categories.forEach(function(c){ %>
+      <a class="<%= activeCategory === c.category ? 'is-active' : '' %>" href="/blog?category=<%= encodeURIComponent(c.category) %>"><%= c.category %> (<%= c.n %>)</a>
+      <% }) %>
+    </div>
+    <% } %>
+
+    <div class="blog-grid">
+      <% posts.slice(1).forEach(function(post){ %>
+      <a class="post-card" href="/blog/<%= post.slug %>">
+        <div class="thumb"><img src="<%= post.cover %>" alt="<%= post.title %>" loading="lazy" width="800" height="600"></div>
+        <div class="post-meta"><span><%= post.category %></span><span>·</span><span><%= post.read_minutes %> min</span></div>
+        <h3><%= post.title %></h3>
+        <p><%= post.excerpt %></p>
+      </a>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<section class="cta">
+  <div class="wrap">
+    <p class="eyebrow">Work with us</p>
+    <h2>Reading is cheap. <span class="serif">Shipping is the work.</span></h2>
+    <div class="cta-row">
+      <p class="lede" style="max-width:38ch">If something here describes your situation, send a brief. We will tell you honestly whether we are the right studio for it.</p>
+      <div class="cta-actions">
+        <a class="btn btn--dark btn--lg" href="/contact">Start a project <%- icon('arrow', 18) %></a>
+        <a class="btn btn--lg" href="/services">Explore services</a>
+      </div>
+    </div>
+  </div>
+</section>

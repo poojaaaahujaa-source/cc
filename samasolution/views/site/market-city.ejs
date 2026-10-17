@@ -1,0 +1,97 @@
+<section class="market-hero">
+  <div class="wrap">
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a><span class="sep">/</span>
+      <a href="/market-area">Market area</a><span class="sep">/</span>
+      <a href="/market-area/<%= country.slug %>"><%= country.label || country.name %></a><span class="sep">/</span>
+      <a href="/market-area/<%= country.slug %>/<%= state.slug %>"><%= state.name %></a><span class="sep">/</span>
+      <span><%= city.name %></span>
+    </nav>
+    <p class="eyebrow"><%= city.name %> · <%= state.name %>, <%= country.name %></p>
+    <h1>Web design &amp; digital growth in <span class="serif"><%= city.name %>.</span></h1>
+    <p class="lede" style="margin-top:22px"><%= paragraphs[0] %></p>
+    <div class="chips">
+      <span class="chip"><%- icon('clock', 14) %> <%= country.timezone %></span>
+      <span class="chip"><%- icon('globe', 14) %> <%= country.languages %></span>
+      <span class="chip"><%- icon('bag', 14) %> <%= country.currency %></span>
+      <span class="chip"><%- icon('arrow', 14) %> <%= country.kickoff %></span>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap market-layout">
+    <div>
+      <div class="prose">
+        <p class="local-note"><%= city.name %> is one of <%= summary.cities %> cities in our market area — and every one of them gets a real page, not a template with the name swapped.</p>
+        <p><%= paragraphs[1] %></p>
+        <p><%= billing %></p>
+      </div>
+
+      <h2 style="margin:40px 0 18px;font-size:clamp(24px,2.4vw,34px)">Services available in <%= city.name %></h2>
+      <div class="svc-index">
+        <% categories.forEach(function(cat){ %>
+        <div class="svc-index-group">
+          <h3><%= cat.name %></h3>
+          <% cat.services.forEach(function(svc){ %>
+          <a href="/market-area/<%= country.slug %>/<%= state.slug %>/<%= city.slug %>/<%= svc.slug %>"><%= svc.name %></a>
+          <% }) %>
+        </div>
+        <% }) %>
+      </div>
+
+      <% if (nearby.length) { %>
+      <h2 style="margin:48px 0 16px;font-size:clamp(22px,2vw,28px)">Nearby cities</h2>
+      <div class="city-grid">
+        <% nearby.forEach(function(c){ %>
+        <a class="city-chip" href="/market-area/<%= country.slug %>/<%= state.slug %>/<%= c.slug %>"><%= c.name %></a>
+        <% }) %>
+      </div>
+      <% } %>
+
+      <h2 style="margin:48px 0 8px;font-size:clamp(24px,2.4vw,32px)">Questions about working in <%= city.name %></h2>
+      <div class="faq">
+        <% faqs.forEach(function(f){ %>
+        <details>
+          <summary><%= f.q %></summary>
+          <p><%= f.a %></p>
+        </details>
+        <% }) %>
+      </div>
+    </div>
+
+    <aside class="sidebar">
+      <div class="side-card">
+        <h4>Local facts</h4>
+        <dl>
+          <div class="side-row"><dt>Country</dt><dd><%= country.label || country.name %></dd></div>
+          <div class="side-row"><dt>State</dt><dd><%= state.name %></dd></div>
+          <div class="side-row"><dt>Currency</dt><dd><%= country.currency %></dd></div>
+          <div class="side-row"><dt>Time zone</dt><dd><%= country.timezone %></dd></div>
+          <div class="side-row"><dt>Overlap</dt><dd><%= country.overlap %></dd></div>
+          <div class="side-row"><dt>Languages</dt><dd style="max-width:15ch"><%= country.languages %></dd></div>
+        </dl>
+        <a class="btn btn--dark" href="/contact?city=<%= encodeURIComponent(city.name) %>">Start a project</a>
+        <p class="small" style="margin:14px 0 0"><%= country.kickoff %>. Reply within one working day.</p>
+      </div>
+      <div class="side-card" style="margin-top:18px">
+        <h4>Local proof</h4>
+        <p class="small" style="margin:0">We do not invent client names or offices. If you want to see work relevant to your sector, ask on the first call and we will share the closest match — including the parts that could have gone better.</p>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<section class="cta">
+  <div class="wrap">
+    <p class="eyebrow"><%= city.name %> · <%= state.name %></p>
+    <h2>Let’s start with <span class="serif">a conversation.</span></h2>
+    <div class="cta-row">
+      <p class="lede" style="max-width:38ch">Tell us what you are building in <%= city.name %>. You will get a reply from the person who would run the project.</p>
+      <div class="cta-actions">
+        <a class="btn btn--dark btn--lg" href="/contact?city=<%= encodeURIComponent(city.name) %>">Start a project <%- icon('arrow', 18) %></a>
+        <a class="btn btn--lg" href="mailto:<%= site.contact_email %>"><%= site.contact_email %></a>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,63 @@
+<section class="page-hero">
+  <div class="wrap">
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a><span class="sep">/</span><span>Services</span>
+    </nav>
+    <div class="page-hero__row">
+      <div>
+        <h1>Design, build and growth — <span class="serif">without the handoff gaps.</span></h1>
+        <p class="lede">Ten disciplines, <%= count %> service lines. Hire one, or keep the whole studio on retainer. Every engagement starts with a written scope and a dated plan.</p>
+      </div>
+      <div class="page-hero__meta">
+        <div class="meta-item"><%= count %> <strong>Services</strong></div>
+        <div class="meta-item">10 <strong>Disciplines</strong></div>
+        <div class="meta-item">7 <strong>Markets</strong></div>
+      </div>
+    </div>
+    <div class="chips">
+      <% categories.forEach(function(cat){ %>
+      <a class="chip" href="#<%= cat.slug %>"><%= cat.short %></a>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<% categories.forEach(function(cat, i){ %>
+<section class="section <%= i > 0 ? 'section--line' : '' %>" id="<%= cat.slug %>">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="section-index"><%= String(i + 1).padStart(2, '0') %> — <%= cat.short %></p>
+      <div>
+        <h2><%= cat.name %></h2>
+        <p class="lede"><%= cat.lede %></p>
+      </div>
+    </div>
+    <div class="service-list">
+      <% cat.services.forEach(function(svc, j){ %>
+      <a class="service-row" href="/services/<%= svc.slug %>">
+        <span class="num"><%= String(j + 1).padStart(2, '0') %></span>
+        <span>
+          <h3><%= svc.name %></h3>
+          <p><%= svc.tagline %></p>
+        </span>
+        <%- icon('arrow', 18) %>
+      </a>
+      <% }) %>
+    </div>
+  </div>
+</section>
+<% }) %>
+
+<section class="cta">
+  <div class="wrap">
+    <p class="eyebrow">Not sure where to start?</p>
+    <h2>Tell us the problem. <span class="serif">We will name the service.</span></h2>
+    <div class="cta-row">
+      <p class="lede" style="max-width:38ch">Most projects begin with a 30-minute call and a short written brief. No obligation, no pitch deck.</p>
+      <div class="cta-actions">
+        <a class="btn btn--dark btn--lg" href="/contact">Book a call <%- icon('arrow', 18) %></a>
+        <a class="btn btn--lg" href="/market-area">Find your city</a>
+      </div>
+    </div>
+  </div>
+</section>

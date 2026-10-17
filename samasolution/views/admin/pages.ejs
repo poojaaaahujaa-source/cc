@@ -1,0 +1,34 @@
+<div class="card" style="margin-bottom:16px">
+  <div class="card__head">
+    <div><h2>Home page</h2><p>Hero copy, stats and the default meta tags.</p></div>
+    <a class="btn btn--ghost btn--sm" href="/admin/pages/home">Edit home page</a>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card__head"><div><h2>Site pages</h2><p>Static pages rendered from the database.</p></div></div>
+  <div class="table-wrap">
+    <table class="data">
+      <thead><tr><th>Page</th><th>URL</th><th>Meta title</th><th>Updated</th><th></th></tr></thead>
+      <tbody>
+        <% pages.forEach(function(page){ %>
+        <tr>
+          <td>
+            <a class="strong" href="/admin/pages/<%= page.slug %>"><%= page.title %></a>
+            <% if (!page.active) { %><span class="pill" style="margin-left:6px">Hidden</span><% } %>
+          </td>
+          <td class="mono">/<%= page.slug %></td>
+          <td class="sub"><%= page.meta_title || 'Auto' %></td>
+          <td class="sub"><%= helpers.formatDate(page.updated_at, 'short') %></td>
+          <td style="text-align:right">
+            <div class="row-actions">
+              <a class="btn btn--ghost btn--sm" href="/<%= page.slug %>" target="_blank" rel="noopener">View</a>
+              <a class="btn btn--ghost btn--sm" href="/admin/pages/<%= page.slug %>">Edit</a>
+            </div>
+          </td>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%= pageTitle %></title>
+  <meta name="description" content="<%= metaDescription %>">
+  <% if (typeof metaKeywords !== 'undefined' && metaKeywords) { %><meta name="keywords" content="<%= metaKeywords %>"><% } %>
+  <link rel="canonical" href="<%= canonical %>">
+  <meta name="robots" content="<%= (typeof noindex !== 'undefined' && noindex) ? 'noindex, nofollow' : 'index, follow, max-image-preview:large, max-snippet:-1' %>">
+  <meta name="author" content="<%= site.site_name %>">
+  <meta name="theme-color" content="#ffffff">
+  <% if (site.google_site_verification) { %><meta name="google-site-verification" content="<%= site.google_site_verification %>"><% } %>
+
+  <meta property="og:site_name" content="<%= site.site_name %>">
+  <meta property="og:type" content="<%= typeof ogType !== 'undefined' ? ogType : 'website' %>">
+  <meta property="og:title" content="<%= pageTitle %>">
+  <meta property="og:description" content="<%= metaDescription %>">
+  <meta property="og:url" content="<%= canonical %>">
+  <meta property="og:image" content="<%= abs(typeof ogImage !== 'undefined' && ogImage ? ogImage : '/img/hero.jpg') %>">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="<%= pageTitle %>">
+  <meta name="twitter:description" content="<%= metaDescription %>">
+  <meta name="twitter:image" content="<%= abs(typeof ogImage !== 'undefined' && ogImage ? ogImage : '/img/hero.jpg') %>">
+
+  <link rel="preload" href="/fonts/inter-tight-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/instrument-serif-latin-400-italic.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/css/site.css">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/favicon.svg">
+
+  <script nonce="<%= nonce %>" src="/js/site.js" defer></script>
+  <% if (site.analytics_id) { %>
+  <script nonce="<%= nonce %>" async src="https://www.googletagmanager.com/gtag/js?id=<%= site.analytics_id %>"></script>
+  <script nonce="<%= nonce %>">window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','<%= site.analytics_id %>');</script>
+  <% } %>
+  <% if (typeof jsonLd !== 'undefined' && jsonLd && jsonLd.length) { %>
+  <% jsonLd.forEach(function(item){ %>
+  <script type="application/ld+json" nonce="<%= nonce %>"><%- JSON.stringify(item).replace(/</g, '\\u003c') %></script>
+  <% }) %>
+  <% } %>
+</head>
+<body class="<%= typeof bodyClass !== 'undefined' ? bodyClass : '' %>">
+  <a class="skip" href="#main">Skip to content</a>
+  <%- include('partials/header') %>
+  <main id="main">
+    <%- body %>
+  </main>
+  <%- include('partials/footer') %>
+</body>
+</html>

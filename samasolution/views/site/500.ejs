@@ -1,0 +1,14 @@
+<section class="page-hero" style="min-height:56vh;display:flex;align-items:center">
+  <div class="wrap">
+    <p class="eyebrow">500</p>
+    <h1>Something broke <span class="serif">on our side.</span></h1>
+    <p class="lede" style="margin-top:22px">The page could not be rendered. Please try again, or email <a href="mailto:<%= site.contact_email %>" style="text-decoration:underline"><%= site.contact_email %></a> and we will sort it out.</p>
+    <div class="hero-actions" style="margin-top:30px">
+      <a class="btn btn--dark" href="/">Back to home</a>
+      <a class="btn" href="/contact">Contact</a>
+    </div>
+    <% if (error) { %>
+    <pre class="code-block" style="margin-top:40px;overflow:auto"><%= error.stack || error.message %></pre>
+    <% } %>
+  </div>
+</section>

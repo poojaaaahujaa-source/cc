@@ -1,0 +1,32 @@
+<section class="page-hero">
+  <div class="wrap">
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a><span class="sep">/</span><span><%= page.title %></span>
+    </nav>
+    <p class="eyebrow"><%= page.title %></p>
+    <h1><%= page.h1 || page.title %></h1>
+    <% if (page.intro) { %><p class="lede" style="margin-top:22px"><%= page.intro %></p><% } %>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="prose" style="margin:0 auto">
+      <%- html %>
+    </div>
+  </div>
+</section>
+
+<section class="cta">
+  <div class="wrap">
+    <p class="eyebrow">Next</p>
+    <h2>Start with <span class="serif">a conversation.</span></h2>
+    <div class="cta-row">
+      <p class="lede" style="max-width:38ch">A short brief is enough. We will reply with questions, a range and a suggested next step.</p>
+      <div class="cta-actions">
+        <a class="btn btn--dark btn--lg" href="/contact">Contact the studio <%- icon('arrow', 18) %></a>
+        <a class="btn btn--lg" href="/services">See services</a>
+      </div>
+    </div>
+  </div>
+</section>

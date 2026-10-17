@@ -1,0 +1,124 @@
+<form method="post" action="/admin/blog">
+  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+  <% if (post) { %><input type="hidden" name="id" value="<%= post.id %>"><% } %>
+
+  <div class="split" style="margin-bottom:16px">
+    <a class="btn btn--ghost btn--sm" href="/admin/blog">← Insights</a>
+    <div style="display:flex;gap:8px">
+      <% if (post) { %><a class="btn btn--ghost btn--sm" href="/blog/<%= post.slug %>" target="_blank" rel="noopener">View live</a><% } %>
+      <button class="btn btn--sm" type="submit">Save article</button>
+    </div>
+  </div>
+
+  <div class="grid grid-main">
+    <div class="stack">
+      <div class="card">
+        <div class="card__head"><div><h2>Article</h2></div></div>
+        <div class="card__body">
+          <div class="frow">
+            <label for="title">Title</label>
+            <input class="input" id="title" name="title" value="<%= post ? post.title : '' %>" required>
+          </div>
+          <div class="fgrid">
+            <div class="frow">
+              <label for="slug">Slug</label>
+              <input class="input" id="slug" name="slug" value="<%= post ? post.slug : '' %>" placeholder="auto-from-title">
+              <p class="help">/blog/<span id="slugPreview"><%= post ? post.slug : '…' %></span></p>
+            </div>
+            <div class="frow">
+              <label for="category">Topic</label>
+              <input class="input" id="category" name="category" value="<%= post ? post.category : 'Strategy' %>" list="topics">
+              <datalist id="topics">
+                <option>Strategy</option><option>Web Design</option><option>SEO</option><option>Performance</option><option>E-Commerce</option><option>Growth</option>
+              </datalist>
+            </div>
+          </div>
+          <div class="frow">
+            <label for="excerpt">Excerpt</label>
+            <textarea class="textarea" id="excerpt" name="excerpt" style="min-height:80px"><%= post ? post.excerpt : '' %></textarea>
+            <p class="help">Shown on cards and used as the meta description fallback.</p>
+          </div>
+          <div class="frow">
+            <label for="body">Body</label>
+            <textarea class="textarea textarea--tall" id="body" name="body" style="min-height:380px"><%= post ? post.body : '' %></textarea>
+            <p class="help">Markdown: <code>## heading</code>, <code>- list</code>, <code>&gt; quote</code>, <code>**bold**</code>, <code>[link](url)</code>.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stack">
+      <div class="card">
+        <div class="card__head"><div><h2>Publishing</h2></div></div>
+        <div class="card__body">
+          <div class="frow">
+            <label for="status">Status</label>
+            <select class="select" id="status" name="status">
+              <option value="published" <%= post && post.status === 'published' ? 'selected' : '' %>>Published</option>
+              <option value="draft" <%= post && post.status === 'draft' ? 'selected' : '' %>>Draft</option>
+            </select>
+          </div>
+          <div class="frow">
+            <label for="published_at">Publish date</label>
+            <input class="input" id="published_at" name="published_at" type="date" value="<%= post ? post.published_at.slice(0, 10) : new Date().toISOString().slice(0, 10) %>">
+          </div>
+          <div class="fgrid">
+            <div class="frow">
+              <label for="read_minutes">Read time</label>
+              <input class="input" id="read_minutes" name="read_minutes" type="number" value="<%= post ? post.read_minutes : 5 %>">
+            </div>
+            <div class="frow">
+              <label for="author">Author</label>
+              <input class="input" id="author" name="author" value="<%= post ? post.author : 'Sama Studio' %>">
+            </div>
+          </div>
+          <div class="frow">
+            <label for="cover">Cover image</label>
+            <input class="input" id="cover" name="cover" value="<%= post ? post.cover : '/img/blog-1.jpg' %>">
+          </div>
+          <label class="check"><input type="checkbox" name="featured" <%= post && post.featured ? 'checked' : '' %>> Feature this article</label>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card__head"><div><h2>SEO</h2></div></div>
+        <div class="card__body">
+          <div class="frow">
+            <label for="meta_title">Meta title</label>
+            <input class="input" id="meta_title" name="meta_title" value="<%= post ? post.meta_title : '' %>" maxlength="70" data-seo-title>
+            <p class="help"><span data-count-for="meta_title">0</span>/70</p>
+          </div>
+          <div class="frow">
+            <label for="meta_description">Meta description</label>
+            <textarea class="textarea" id="meta_description" name="meta_description" style="min-height:80px" maxlength="160" data-seo-desc><%= post ? post.meta_description : '' %></textarea>
+            <p class="help"><span data-count-for="meta_description">0</span>/160</p>
+          </div>
+          <div class="frow">
+            <label for="meta_keywords">Meta keywords</label>
+            <textarea class="textarea" id="meta_keywords" name="meta_keywords" style="min-height:70px"><%= post ? post.meta_keywords : '' %></textarea>
+          </div>
+        </div>
+      </div>
+
+      <% if (post) { %>
+      <div class="card">
+        <div class="card__head"><div><h2>Delete</h2></div></div>
+        <div class="card__body">
+          <button class="btn btn--danger btn--sm" type="submit" form="deletePost">Delete article</button>
+        </div>
+      </div>
+      <% } %>
+    </div>
+  </div>
+
+  <div class="split" style="margin-top:16px">
+    <a class="btn btn--ghost" href="/admin/blog">Cancel</a>
+    <button class="btn" type="submit">Save article</button>
+  </div>
+</form>
+
+<% if (post) { %>
+<form id="deletePost" method="post" action="/admin/blog/<%= post.id %>/delete" data-confirm="Delete this article permanently?">
+  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+</form>
+<% } %>

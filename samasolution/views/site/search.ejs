@@ -1,0 +1,58 @@
+<section class="page-hero">
+  <div class="wrap">
+    <p class="eyebrow">Search</p>
+    <h1><%= q ? 'Results for “' + q + '”' : 'Search the site.' %></h1>
+    <form action="/search" method="get" style="margin-top:28px;max-width:560px;display:flex;gap:10px">
+      <input class="input" style="height:54px;border-radius:999px" type="search" name="q" value="<%= q %>" placeholder="Search services, cities, articles" aria-label="Search">
+      <button class="btn btn--dark" type="submit">Search</button>
+    </form>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <% if (q && q.length < 2) { %>
+    <p class="muted">Type at least two characters.</p>
+    <% } else if (q && !services.length && !posts.length && !cities.length) { %>
+    <div class="empty-state">
+      <p style="margin:0">Nothing matched “<%= q %>”. Try a service name, a city, or <a href="/contact" style="text-decoration:underline">ask us directly</a>.</p>
+    </div>
+    <% } %>
+
+    <% if (services.length) { %>
+    <div class="result-group">
+      <h2>Services</h2>
+      <% services.forEach(function(s){ %>
+      <a class="result-link" href="/services/<%= s.slug %>">
+        <span><h3><%= s.name %></h3><p><%= s.summary %></p></span>
+        <%- icon('arrow', 18) %>
+      </a>
+      <% }) %>
+    </div>
+    <% } %>
+
+    <% if (cities.length) { %>
+    <div class="result-group">
+      <h2>Locations</h2>
+      <% cities.forEach(function(c){ %>
+      <a class="result-link" href="/market-area/<%= c.country_slug %>/<%= c.state_slug %>/<%= c.city_slug %>">
+        <span><h3><%= c.city %></h3><p><%= c.state %>, <%= c.country %></p></span>
+        <%- icon('arrow', 18) %>
+      </a>
+      <% }) %>
+    </div>
+    <% } %>
+
+    <% if (posts.length) { %>
+    <div class="result-group">
+      <h2>Insights</h2>
+      <% posts.forEach(function(p){ %>
+      <a class="result-link" href="/blog/<%= p.slug %>">
+        <span><h3><%= p.title %></h3><p><%= p.excerpt %></p></span>
+        <%- icon('arrow', 18) %>
+      </a>
+      <% }) %>
+    </div>
+    <% } %>
+  </div>
+</section>

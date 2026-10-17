@@ -1,0 +1,15 @@
+node_modules/
+npm-debug.log*
+
+# SQLite database is generated and re-seeded on first boot
+data/*.db
+data/*.db-shm
+data/*.db-wal
+
+# Admin uploads are runtime content
+public/uploads/*
+!public/uploads/.gitkeep
+
+.env
+.env.*
+.DS_Store

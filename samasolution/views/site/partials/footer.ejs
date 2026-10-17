@@ -1,0 +1,46 @@
+<footer class="site-footer">
+  <div class="wrap">
+    <p class="footer-word" aria-hidden="true">SAMA</p>
+    <div class="footer-grid">
+      <div>
+        <h4>Studio</h4>
+        <p class="footer-contact">
+          <%= site.address %><br>
+          <a href="mailto:<%= site.contact_email %>"><%= site.contact_email %></a><br>
+          <a href="tel:<%= site.contact_phone_raw %>"><%= site.contact_phone %></a>
+        </p>
+        <p class="footer-contact small" style="margin-top:14px;color:rgba(255,255,255,.42)"><%= site.hours %></p>
+      </div>
+      <div>
+        <h4>Services</h4>
+        <% navCategories.slice(0, 6).forEach(function(cat){ %>
+        <a href="/services#<%= cat.slug %>"><%= cat.name %></a>
+        <% }) %>
+        <a href="/services">All 44 services</a>
+      </div>
+      <div>
+        <h4>Market area</h4>
+        <a href="/market-area">All countries</a>
+        <% (typeof marketCountriesForFooter !== 'undefined' ? marketCountriesForFooter : []).slice(0, 6).forEach(function(c){ %>
+        <a href="/market-area/<%= c.slug %>"><%= c.label || c.name %></a>
+        <% }) %>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <a href="/about">About</a>
+        <a href="/blog">Insights</a>
+        <a href="/contact">Contact</a>
+        <a href="/privacy">Privacy</a>
+        <a href="/terms">Terms</a>
+        <% (site.social_links || []).forEach(function(s){ %>
+        <a href="<%= s.url %>" rel="noopener noreferrer" target="_blank"><%= s.label %></a>
+        <% }) %>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© <%= year %> <%= site.site_name %>. All rights reserved.</span>
+      <span><%= site.footer_note %></span>
+      <span>7 countries · 44 service lines</span>
+    </div>
+  </div>
+</footer>

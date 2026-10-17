@@ -1,0 +1,83 @@
+<div class="grid grid-main">
+  <div class="stack">
+    <div class="card">
+      <div class="card__head"><div><h2>Uploaded media</h2><p>Images used in services, articles and page content.</p></div></div>
+      <% if (rows.length) { %>
+      <div class="card__body">
+        <div class="media-grid">
+          <% rows.forEach(function(item){ %>
+          <div class="media-item">
+            <img src="<%= item.path %>" alt="<%= item.alt %>" loading="lazy">
+            <div class="meta">
+              <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap"><%= item.filename %></span>
+              <span><%= Math.round(item.size / 1024) %> KB</span>
+            </div>
+            <div class="meta" style="border-top:1px solid var(--line)">
+              <button class="btn btn--ghost btn--sm" type="button" data-copy="<%= item.path %>">Copy path</button>
+              <form method="post" action="/admin/media/<%= item.id %>/delete" data-confirm="Delete this image?">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                <button class="btn btn--danger btn--sm" type="submit">Delete</button>
+              </form>
+            </div>
+          </div>
+          <% }) %>
+        </div>
+      </div>
+      <% } else { %>
+      <div class="empty"><strong>No uploads yet.</strong> Use the form on the right to add your first image.</div>
+      <% } %>
+    </div>
+
+    <div class="card">
+      <div class="card__head"><div><h2>Built-in images</h2><p>Shipped with the design. Reference them directly by path.</p></div></div>
+      <div class="card__body">
+        <div class="media-grid">
+          <% builtIn.forEach(function(item){ %>
+          <div class="media-item">
+            <img src="<%= item.path %>" alt="<%= item.name %>" loading="lazy">
+            <div class="meta">
+              <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap"><%= item.name %></span>
+              <button class="btn btn--ghost btn--sm" type="button" data-copy="<%= item.path %>">Copy</button>
+            </div>
+          </div>
+          <% }) %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="stack">
+    <div class="card">
+      <div class="card__head"><div><h2>Upload</h2><p>JPG, PNG, WebP, GIF or SVG · up to 4 MB.</p></div></div>
+      <form method="post" action="/admin/media" enctype="multipart/form-data">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <div class="card__body">
+          <div class="frow">
+            <label for="file">Image file</label>
+            <input class="input" id="file" name="file" type="file" accept="image/*" required>
+          </div>
+          <div class="frow">
+            <label for="alt">Alt text</label>
+            <input class="input" id="alt" name="alt" placeholder="Describe the image for accessibility">
+          </div>
+        </div>
+        <div class="form-foot">
+          <span class="small muted">Stored in /public/uploads.</span>
+          <button class="btn btn--sm" type="submit">Upload</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="card">
+      <div class="card__head"><div><h2>Using media</h2></div></div>
+      <div class="card__body">
+        <p class="small muted" style="margin:0 0 10px">Paste a path into any image field:</p>
+        <div class="copy-row">
+          <input class="input" value="/uploads/your-file.jpg" readonly>
+          <button class="btn btn--ghost btn--sm" type="button" data-copy="/uploads/your-file.jpg">Copy</button>
+        </div>
+        <p class="small muted" style="margin:14px 0 0">Images are served with long-lived cache headers. Keep files under 300 KB where possible.</p>
+      </div>
+    </div>
+  </div>
+</div>

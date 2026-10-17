@@ -1,0 +1,126 @@
+<section class="page-hero service-hero">
+  <div class="wrap">
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a><span class="sep">/</span>
+      <a href="/market-area">Market area</a><span class="sep">/</span>
+      <a href="/market-area/<%= country.slug %>"><%= country.label || country.name %></a><span class="sep">/</span>
+      <a href="/market-area/<%= country.slug %>/<%= state.slug %>"><%= state.name %></a><span class="sep">/</span>
+      <a href="/market-area/<%= country.slug %>/<%= state.slug %>/<%= city.slug %>"><%= city.name %></a><span class="sep">/</span>
+      <span><%= service.name %></span>
+    </nav>
+    <p class="eyebrow"><%= city.name %>, <%= state.name %></p>
+    <h1><%= service.name %> in <span class="serif"><%= city.name %>.</span></h1>
+    <p class="lede" style="margin-top:22px"><%= service.summary %></p>
+    <div class="chips">
+      <span class="chip"><%- icon('clock', 14) %> <%= service.timeline %></span>
+      <span class="chip"><%- icon('tag', 14) %> From <%= service.price_from %></span>
+      <span class="chip"><%- icon('pin', 14) %> <%= place %></span>
+    </div>
+    <div class="hero-actions" style="margin-top:30px">
+      <a class="btn btn--dark" href="/contact?service=<%= service.slug %>&city=<%= encodeURIComponent(city.name) %>">Request a quote <%- icon('arrow', 17) %></a>
+      <a class="btn" href="tel:<%= site.contact_phone_raw %>"><%= site.contact_phone %></a>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap service-layout">
+    <aside class="sidebar">
+      <div class="side-card">
+        <h4>Local scope</h4>
+        <dl>
+          <div class="side-row"><dt>Location</dt><dd style="max-width:16ch"><%= place %></dd></div>
+          <div class="side-row"><dt>Timeline</dt><dd><%= service.timeline %></dd></div>
+          <div class="side-row"><dt>From</dt><dd><%= service.price_from %></dd></div>
+          <div class="side-row"><dt>Currency</dt><dd><%= country.currency %></dd></div>
+          <div class="side-row"><dt>Overlap</dt><dd><%= country.overlap %></dd></div>
+        </dl>
+        <a class="btn btn--dark" href="/contact?service=<%= service.slug %>&city=<%= encodeURIComponent(city.name) %>">Start a project</a>
+        <p class="small" style="margin:14px 0 0"><%= country.kickoff %>.</p>
+      </div>
+      <div class="side-card" style="margin-top:18px">
+        <h4>Who this is for</h4>
+        <p class="small" style="margin:0"><%= service.best_for %></p>
+      </div>
+    </aside>
+
+    <div>
+      <div class="prose">
+        <p class="local-note">A <%= service.name.toLowerCase() %> engagement in <%= city.name %> runs on the same model as everywhere else: a short discovery, a fixed scope, one senior lead and a dated plan.</p>
+        <% body.forEach(function(para){ %><p><%= para %></p><% }) %>
+        <p><%= billing %></p>
+      </div>
+
+      <h2 style="margin:44px 0 20px;font-size:clamp(24px,2.2vw,32px)">What you get</h2>
+      <div class="deliverables">
+        <% deliverables.forEach(function(d){ %>
+        <div class="deliverable"><%- icon('check', 16) %><span><%= d %></span></div>
+        <% }) %>
+      </div>
+
+      <h2 style="margin:44px 0 20px;font-size:clamp(24px,2.2vw,32px)">How it runs</h2>
+      <div class="steps">
+        <% process.forEach(function(step, i){ %>
+        <div class="step">
+          <p class="step-num"><%= String(i + 1).padStart(2, '0') %></p>
+          <h3><%= step.title %></h3>
+          <p><%= step.text %></p>
+        </div>
+        <% }) %>
+      </div>
+
+      <h2 style="margin:48px 0 8px;font-size:clamp(24px,2.2vw,32px)"><%= service.name %> in <%= city.name %> — questions</h2>
+      <div class="faq">
+        <% faqs.forEach(function(f){ %>
+        <details>
+          <summary><%= f.q %></summary>
+          <p><%= f.a %></p>
+        </details>
+        <% }) %>
+      </div>
+
+      <% if (nearby.length) { %>
+      <h2 style="margin:48px 0 16px;font-size:clamp(22px,2vw,28px)"><%= service.name %> nearby</h2>
+      <div class="city-grid">
+        <% nearby.forEach(function(c){ %>
+        <a class="city-chip" href="/market-area/<%= country.slug %>/<%= state.slug %>/<%= c.slug %>/<%= service.slug %>"><%= c.name %></a>
+        <% }) %>
+      </div>
+      <% } %>
+    </div>
+  </div>
+</section>
+
+<% if (related.length) { %>
+<section class="section section--line">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="section-index">Related</p>
+      <div><h2>Also available in <span class="serif"><%= city.name %>.</span></h2></div>
+    </div>
+    <div class="service-list">
+      <% related.forEach(function(svc, i){ %>
+      <a class="service-row" href="/market-area/<%= country.slug %>/<%= state.slug %>/<%= city.slug %>/<%= svc.slug %>">
+        <span class="num"><%= String(i + 1).padStart(2, '0') %></span>
+        <span><h3><%= svc.name %></h3><p><%= svc.tagline %></p></span>
+        <%- icon('arrow', 18) %>
+      </a>
+      <% }) %>
+    </div>
+  </div>
+</section>
+<% } %>
+
+<section class="cta">
+  <div class="wrap">
+    <p class="eyebrow"><%= service.name %> · <%= city.name %></p>
+    <h2>Send the brief. <span class="serif">We will do the rest.</span></h2>
+    <div class="cta-row">
+      <p class="lede" style="max-width:38ch">Include your city, timeline and a rough budget range. You will get a written reply within one working day.</p>
+      <div class="cta-actions">
+        <a class="btn btn--dark btn--lg" href="/contact?service=<%= service.slug %>&city=<%= encodeURIComponent(city.name) %>">Request a quote <%- icon('arrow', 18) %></a>
+        <a class="btn btn--lg" href="/market-area/<%= country.slug %>/<%= state.slug %>/<%= city.slug %>">Back to <%= city.name %></a>
+      </div>
+    </div>
+  </div>
+</section>

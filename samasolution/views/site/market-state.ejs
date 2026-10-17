@@ -1,0 +1,91 @@
+<section class="market-hero">
+  <div class="wrap">
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a><span class="sep">/</span>
+      <a href="/market-area">Market area</a><span class="sep">/</span>
+      <a href="/market-area/<%= country.slug %>"><%= country.label || country.name %></a><span class="sep">/</span>
+      <span><%= state.name %></span>
+    </nav>
+    <p class="eyebrow"><%= country.name %> · <%= cities.length %> cities</p>
+    <h1>Web design &amp; growth in <span class="serif"><%= state.name %>.</span></h1>
+    <p class="lede" style="margin-top:22px">We work with businesses across <%= state.name %> on websites, e-commerce, search and brand. Projects are delivered remotely from Delhi, in <%= country.currency %>, with <%= country.overlap.toLowerCase() %>.</p>
+    <div class="chips">
+      <span class="chip"><%- icon('clock', 14) %> <%= country.timezone %></span>
+      <span class="chip"><%- icon('globe', 14) %> <%= country.languages %></span>
+      <span class="chip"><%- icon('bag', 14) %> <%= country.currency %></span>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="section-index">01 — Cities</p>
+      <div>
+        <h2>Where we work in <span class="serif"><%= state.name %>.</span></h2>
+        <p class="lede">Pick a city for the local page — currency, working overlap and the services available there.</p>
+      </div>
+    </div>
+    <div class="city-grid">
+      <% cities.forEach(function(c){ %>
+      <a class="city-chip" href="/market-area/<%= country.slug %>/<%= state.slug %>/<%= c.slug %>"><%= c.name %></a>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<% if (featured.length) { %>
+<section class="section section--line">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="section-index">02 — Local pages</p>
+      <div><h2>Start with a <span class="serif">city.</span></h2></div>
+    </div>
+    <div class="svc-grid">
+      <% featured.forEach(function(c){ %>
+      <a class="svc-card" href="/market-area/<%= country.slug %>/<%= state.slug %>/<%= c.slug %>">
+        <%- icon('pin', 24) %>
+        <h3><%= c.name %></h3>
+        <p>Websites, e-commerce and search for businesses in <%= c.name %>.</p>
+        <span class="card-foot">View city <%- icon('arrow', 14) %></span>
+      </a>
+      <% }) %>
+    </div>
+  </div>
+</section>
+<% } %>
+
+<section class="section section--line">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="section-index">03 — Services</p>
+      <div>
+        <h2>What we deliver <span class="serif">here.</span></h2>
+        <p class="lede">The full studio capability is available to <%= state.name %> clients — the same team, the same standard.</p>
+      </div>
+    </div>
+    <div class="service-list">
+      <% navCategories.forEach(function(cat, i){ %>
+      <a class="service-row" href="/services#<%= cat.slug %>">
+        <span class="num"><%= String(i + 1).padStart(2, '0') %></span>
+        <span><h3><%= cat.name %></h3><p><%= cat.blurb %></p></span>
+        <%- icon('arrow', 18) %>
+      </a>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<section class="cta">
+  <div class="wrap">
+    <p class="eyebrow"><%= state.name %></p>
+    <h2>A local brief, <span class="serif">a senior team.</span></h2>
+    <div class="cta-row">
+      <p class="lede" style="max-width:38ch"><%= country.kickoff %>. Tell us the city and the problem; we will reply within one working day.</p>
+      <div class="cta-actions">
+        <a class="btn btn--dark btn--lg" href="/contact">Start a project <%- icon('arrow', 18) %></a>
+        <a class="btn btn--lg" href="/market-area/<%= country.slug %>">Back to <%= country.label || country.name %></a>
+      </div>
+    </div>
+  </div>
+</section>

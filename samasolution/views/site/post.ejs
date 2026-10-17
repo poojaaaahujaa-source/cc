@@ -1,0 +1,64 @@
+<article>
+  <header class="post-hero">
+    <div class="wrap">
+      <nav class="breadcrumbs" aria-label="Breadcrumb">
+        <a href="/">Home</a><span class="sep">/</span>
+        <a href="/blog">Insights</a><span class="sep">/</span>
+        <span><%= post.category %></span>
+      </nav>
+      <p class="eyebrow"><%= post.category %></p>
+      <h1><%= post.title %></h1>
+      <p class="lede"><%= post.excerpt %></p>
+      <div class="post-meta" style="margin-top:26px">
+        <span><%= helpers.formatDate(post.published_at) %></span><span>·</span>
+        <span><%= post.read_minutes %> min read</span><span>·</span>
+        <span><%= post.author %></span>
+      </div>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <div class="post-cover">
+      <img src="<%= post.cover %>" alt="<%= post.title %>" width="1600" height="700" fetchpriority="high">
+    </div>
+  </div>
+
+  <div class="wrap post-layout">
+    <aside class="post-aside">
+      <dl>
+        <dt>Written by</dt>
+        <dd><%= post.author %></dd>
+        <dt>Published</dt>
+        <dd><%= helpers.formatDate(post.published_at) %></dd>
+        <dt>Topic</dt>
+        <dd><a href="/blog?category=<%= encodeURIComponent(post.category) %>"><%= post.category %></a></dd>
+      </dl>
+      <p style="margin-top:26px"><a class="link-arrow" style="font-size:12px" href="/contact">Talk to the studio <%- icon('arrow', 13) %></a></p>
+    </aside>
+
+    <div class="prose">
+      <%- html %>
+    </div>
+  </div>
+</article>
+
+<% if (related.length) { %>
+<section class="section section--line">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="section-index">Keep reading</p>
+      <div><h2>More from <span class="serif">the archive.</span></h2></div>
+    </div>
+    <div class="blog-grid">
+      <% related.forEach(function(item){ %>
+      <a class="post-card" href="/blog/<%= item.slug %>">
+        <div class="thumb"><img src="<%= item.cover %>" alt="<%= item.title %>" loading="lazy" width="800" height="600"></div>
+        <div class="post-meta"><span><%= item.category %></span><span>·</span><span><%= item.read_minutes %> min</span></div>
+        <h3><%= item.title %></h3>
+        <p><%= item.excerpt %></p>
+      </a>
+      <% }) %>
+    </div>
+  </div>
+</section>
+<% } %>
