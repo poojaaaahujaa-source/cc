@@ -1,11 +1,12 @@
 # Website teardowns & audits
 
-Two independent studies, carried out **17 October 2026** by inspecting live HTTP responses, sitemaps, WordPress REST endpoints, Lighthouse lab runs and public reputation data.
+Three independent studies, carried out **17 October 2026** by inspecting live HTTP responses, sitemaps, WordPress REST endpoints, Lighthouse lab runs, registry/financial filings and public reputation data.
 
-| Site | What it is | Overall | Report |
-|---|---|---|---|
-| **samasolution.in** | 5-page Delhi web-design brochure site | **3.3 / 10** | [`audit/samasolution-website-audit.md`](audit/samasolution-website-audit.md) |
-| **artattackk.com** | 320+ URL Delhi agency with a full content engine | **5.6 / 10** | [`audit/artattackk-teardown.md`](audit/artattackk-teardown.md) |
+| Site | What it is | Focus | Overall | Report |
+|---|---|---|---|---|
+| **samasolution.in** | 5-page Delhi web-design brochure site | Technical & credibility audit | **3.3 / 10** | [`audit/samasolution-website-audit.md`](audit/samasolution-website-audit.md) |
+| **artattackk.com** | 320+ URL Delhi agency with a full content engine | Design, services, stack, SEO | **5.6 / 10** | [`audit/artattackk-teardown.md`](audit/artattackk-teardown.md) |
+| **auroguard.co.in** | B2B highway-safety manufacturer, ~41,400 URLs | How the market-area grid actually works | **5.4 / 10** | [`audit/auroguard-market-area-report.md`](audit/auroguard-market-area-report.md) |
 
 ## Headlines
 
@@ -22,6 +23,14 @@ Two independent studies, carried out **17 October 2026** by inspecting live HTTP
 - 🟠 Contradictory proof: "13 years", "14 years", "since 2009" (17) on the same page; "500+" vs "1,014+" projects.
 - 🟢 Genuinely strong: 78 service pages, 50 case studies, 35 portfolio pages, ~80 programme pages, excellent security headers, Cloudflare + HTTP/3, HSTS preload.
 
+**auroguard.co.in**
+- 🔴 Market area = **737 cities × 55 products = 40,535** near-identical city-product pages, plus 773 hubs — **≈41,400 URLs** on a **7-month-old domain**.
+- 🔴 One Kolkata room as the registered office; **no factory, depot, dealer or branch published** on any of 8 domains.
+- 🔴 Three different product counts on one page: hero **62**, category cards **65**, sitemap **55**; state count **28+ vs 310+ vs 36**; zinc **4,744 g/m² vs 550**.
+- 🟠 "Since 2005" / "over two decades" vs MCA incorporation **19 Feb 2020**, paid-up **₹5 lakh**, revenue under **₹10 Cr**.
+- 🟢 Genuinely ahead: `llms.txt` plus **18 individually named AI crawlers** welcomed in `robots.txt` — Generative Engine Optimisation most Indian manufacturers haven't started.
+- 🟢 Fast custom PHP 8.3 / Hostinger stack, HTTP/3, HSTS, real technical depth in the blog (IRC:119, MoRTH §800, containment classes).
+
 ## Evidence
 
 | File | Contents |
@@ -35,7 +44,9 @@ Two independent studies, carried out **17 October 2026** by inspecting live HTTP
 2. `audit/artattackk-teardown.md` §3–6 — what a 320-page agency content engine looks like.
 3. `audit/artattackk-teardown.md` §15 — what to steal, what to avoid.
 4. `audit/artattackk-teardown.md` §16 — 30/60/90 plan.
+5. `audit/auroguard-market-area-report.md` §3 — the grid maths, decoded.
+6. `audit/auroguard-market-area-report.md` §12–15 — the 30/60/90 fix plan and scorecard.
 
 ---
 
-*Limits: no rendered visual review (both origins refused this environment's TLS handshake, so analysis is from markup, assets and third-party renderers), no Search Console or analytics access, third-party company data is unconfirmed.*
+*Limits: no rendered visual review (all three origins refused this environment's TLS handshake, so analysis is from markup, assets and third-party renderers), no Search Console or analytics access, third-party company data is unconfirmed.*
