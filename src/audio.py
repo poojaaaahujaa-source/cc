@@ -275,7 +275,7 @@ def trim_vo(x, thr=0.02):
     if len(idx) == 0:
         return x
     a = max(0, idx[0] - int(0.03 * SR))
-    b = min(len(x), idx[-1] + int(0.10 * SR))
+    b = min(len(x), idx[-1] + int(0.045 * SR))
     return x[a:b]
 
 
@@ -317,7 +317,7 @@ def eq_voice(x):
 
 VO_CUES = [  # (file, start time) — timed to the cut, one line per scene
     ("vo-01.wav", 0.12),
-    ("vo-02.wav", 4.72),
+    ("vo-02.wav", 4.80),
     ("vo-03.wav", 9.20),
     ("vo-04.wav", 13.00),
     ("vo-05.wav", 16.64),
@@ -375,6 +375,7 @@ def build(verbose=True):
     place(sfx, boom(1.4, 54, 34, 70), 30.20, 0.10)
 
     # ---- voice
+    prev_end = None
     for i, (f, at) in enumerate(VO_CUES):
         x = trim_vo(load_vo(f))
         x = eq_voice(x)
@@ -385,6 +386,9 @@ def build(verbose=True):
         j0 = min(N, i0 + n)
         if verbose:
             print(f"  VO {f} at {at:5.2f}s  dur {n/SR:4.2f}s  ends {(at+n/SR):5.2f}s")
+        if prev_end is not None and at < prev_end - 1e-6:
+            print(f"  ! voice overlap of {prev_end - at:.3f}s before {f}")
+        prev_end = at + n / SR
         vo[i0:j0, 0] += x[: j0 - i0]
         vo[i0:j0, 1] += x[: j0 - i0]
 

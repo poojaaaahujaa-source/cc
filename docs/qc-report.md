@@ -11,6 +11,8 @@
 | Fabric integrity | crops only; pinked masks follow the real edge; no recolour |
 | Devanagari | shaped via HarfBuzz; matras/conjuncts verified in the type specimen |
 | Voice / music | VO centred, music ducked −62 % under speech |
+| Voice timing | seven lines, zero overlap (checked at build time; 0.12 s minimum gap) |
+| Decoded levels | peak 0.976 · RMS −15.3 dBFS over 31 s |
 | CTA hold | number + site stable 28.0 → 31.0 s |
 | Claim qualifier | “Lead time varies by fabric, supplier and approvals” on screen for the whole `25–40` beat |
 | First frame | starts on picture, no black or fade-in |
