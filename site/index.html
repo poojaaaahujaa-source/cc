@@ -655,6 +655,9 @@
   </div>
 </footer>
 
+<noscript>
+  <style>.reveal{opacity:1 !important;transform:none !important}</style>
+</noscript>
 <script>
   // player: click-to-play with sound, keyboard friendly
   const player = document.getElementById('player');
@@ -676,13 +679,19 @@
   vid.addEventListener('pause', () => player.classList.remove('playing'));
   vid.addEventListener('ended', () => player.classList.remove('playing'));
 
-  // scroll reveal
-  const io = new IntersectionObserver((entries) => {
-    for (const e of entries) {
-      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
-    }
-  }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
-  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  // scroll reveal (with a hard fallback so content is never trapped invisible)
+  const revealAll = () => document.querySelectorAll('.reveal').forEach(el => el.classList.add('in'));
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      for (const e of entries) {
+        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+      }
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+    setTimeout(() => { if (!document.querySelector('.reveal.in')) revealAll(); }, 1200);
+  } else {
+    revealAll();
+  }
 
   // keep the sticky nav honest about the current section
   const links = [...document.querySelectorAll('nav.tocs a')];
