@@ -4,7 +4,8 @@
 | --- | --- |
 | Runtime | 31.00 s, 775 frames @ 25 fps |
 | Resolution / aspect | 1080 × 1920, 9:16 (even dimensions for yuv420p) |
-| Video codec | H.264 High, CRF 21, yuv420p, BT.709 tags |
+| Video codec | H.264 High@4.1, CRF 21 / 8.4 Mbps, yuv420p, BT.709 tags, `+faststart` |
+| Container check | `moov` before `mdat`; 16 timeline frames re-extracted from the encode and inspected |
 | Audio | AAC 192 kbps, 48 kHz stereo, −1 dBTP ceiling |
 | Integrated loudness | ≈ −15 LUFS (measured RMS −15.2 dBFS); confirm on delivery platform |
 | Logo integrity | original PNG alpha composited; red/gold untouched |

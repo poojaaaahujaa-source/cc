@@ -11,7 +11,8 @@ storyboard, the fabric library and the QC sheet are all in one page.
 
 | File | What it is |
 | --- | --- |
-| `deliverables/bahubali-winter-window-reel-1080x1920.mp4` | Delivery master — 1080 × 1920, H.264 High, 25 fps, AAC 48 kHz |
+| `deliverables/bahubali-winter-reel-1080x1920-feed.mp4` | **Feed-ready MP4** — 1080 × 1920, H.264 High@4.1, 8.4 Mbps, 25 fps, AAC 48 kHz (33 MB) |
+| `deliverables/bahubali-winter-window-reel-1080x1920.mp4` | High-bitrate master of the same 31 s cut (50 MB) |
 | `deliverables/poster.jpg` | Cover frame (02:90) |
 | `site/media/reel-720.mp4` | Light 720 × 1280 copy for preview, WhatsApp and web |
 | `site/index.html` | Production microsite: reel, storyboard, asset provenance, sound map, spec, QC |
