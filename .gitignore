@@ -1,0 +1,9 @@
+# rebuildable / local
+.venv/
+node_modules/
+__pycache__/
+out/
+ref/
+assets/generated/
+*.mp4.tmp
+.DS_Store
